@@ -76,68 +76,63 @@ export default function LandingPage() {
       })
     }
 
-    // ── Parallax & reveal animations ──
+    // ── Parallax & reveal animations (all visible by default) ──
     gsap.from('.feature-card', {
-      y: 80,
-      opacity: 0,
+      y: 40,
       duration: 0.8,
       stagger: 0.15,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.features-grid',
         start: 'top 85%',
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
     gsap.utils.toArray<HTMLElement>('.section-header').forEach((header) => {
       gsap.from(header, {
-        y: 60,
-        opacity: 0,
+        y: 30,
         duration: 0.7,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: header,
           start: 'top 88%',
-          toggleActions: 'play none none reverse',
+          toggleActions: 'play none none none',
         },
       })
     })
 
     gsap.from('.step-card', {
-      y: 60,
-      opacity: 0,
+      y: 30,
       duration: 0.7,
       stagger: 0.12,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.steps-grid',
         start: 'top 85%',
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
     gsap.from('.about-text', {
-      y: 50,
-      opacity: 0,
+      y: 30,
       duration: 0.8,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: '.about-section',
         start: 'top 80%',
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
     gsap.from('.cta-banner', {
-      scale: 0.9,
-      opacity: 0,
+      y: 20,
       duration: 0.8,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: '.cta-banner',
         start: 'top 85%',
-        toggleActions: 'play none none reverse',
+        toggleActions: 'play none none none',
       },
     })
 
@@ -288,45 +283,32 @@ export default function LandingPage() {
         {/* ── Features ── */}
         <section className="features" id="features">
           <div className="section-header" data-speed="0.9">
-            <span className="section-badge">✨ Core Features</span>
-            <h2 className="section-title">Everything you need to explore space</h2>
+            <span className="section-badge">👥 ALMA MALDITAS, SR-05</span>
+            <h2 className="section-title">Meet Our Team</h2>
             <p className="section-subtitle">
-              From live satellite tracking to personalized sky alerts — AstroView
-              brings the cosmos to you.
+              The people behind AstroView — building your window to the cosmos.
             </p>
           </div>
           <div className="features-grid">
             <div className="feature-card" data-speed="0.85">
-              <div className="feature-icon">🌠</div>
-              <h3>Sky Alerts</h3>
-              <p>
-                Get notified about meteor showers, eclipses, and other celestial
-                events visible from your location.
-              </p>
+              <div className="feature-icon">🛰️</div>
+              <h3 className="team-name">Manas<br />Mungekar</h3>
+              <p>Team Lead</p>
             </div>
             <div className="feature-card" data-speed="0.9">
-              <div className="feature-icon">🛰</div>
-              <h3>ISS Tracking</h3>
-              <p>
-                Track the International Space Station in real-time and know
-                exactly when it passes above you.
-              </p>
+              <div className="feature-icon">🛰️</div>
+              <h3 className="team-name">Ved<br />Motwani</h3>
+              <p>&nbsp;</p>
             </div>
             <div className="feature-card" data-speed="0.85">
-              <div className="feature-icon">🌍</div>
-              <h3>Space Impact</h3>
-              <p>
-                Understand how solar activity, asteroids, and space weather
-                affect daily life on Earth.
-              </p>
+              <div className="feature-icon">🛰️</div>
+              <h3 className="team-name">Yash<br />Sharma</h3>
+              <p>&nbsp;</p>
             </div>
             <div className="feature-card" data-speed="0.9">
-              <div className="feature-icon">🎓</div>
-              <h3>Learn Space Simply</h3>
-              <p>
-                Complex astronomy data translated into clear, beginner-friendly
-                insights anyone can understand.
-              </p>
+              <div className="feature-icon">🛰️</div>
+              <h3 className="team-name">Vaibhav<br />Kankonkar</h3>
+              <p>&nbsp;</p>
             </div>
           </div>
         </section>

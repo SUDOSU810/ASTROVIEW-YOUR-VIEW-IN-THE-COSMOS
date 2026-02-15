@@ -66,7 +66,7 @@ const features = [
         title: "Polaris Constellation Game",
         description:
             "Learn and identify star patterns through an interactive, quiz-based astronomy experience.",
-        area: "md:[grid-area:3/1/4/5]",
+        area: "md:[grid-area:3/5/4/9]",
         iconColor: "#34d399",
         iconBg: "rgba(52, 211, 153, 0.12)",
         iconBorder: "rgba(52, 211, 153, 0.2)",
@@ -86,7 +86,7 @@ export function GlowingFeatureCards() {
             <div style={{ width: "100%", maxWidth: "1100px" }}>
                 <motion.div
                     style={{ textAlign: "center", marginBottom: "3.5rem" }}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 1, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
@@ -181,7 +181,7 @@ const GridItem = ({
         <motion.li
             className={cn("list-none", area)}
             style={{ minHeight: "12rem" }}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{
@@ -231,7 +231,7 @@ const GridItem = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            initial={{ opacity: 0, scale: 0.8 }}
+                            initial={{ opacity: 1, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{
@@ -257,7 +257,7 @@ const GridItem = ({
                                     color: "#fff",
                                     margin: 0,
                                 }}
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={{ opacity: 1, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{
@@ -274,7 +274,7 @@ const GridItem = ({
                                     color: "#a1a1aa",
                                     margin: 0,
                                 }}
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={{ opacity: 1, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{
