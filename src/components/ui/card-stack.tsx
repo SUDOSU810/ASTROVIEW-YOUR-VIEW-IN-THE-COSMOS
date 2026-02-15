@@ -23,6 +23,7 @@ export interface CardStackProps {
     autoAdvanceMs?: number;
     className?: string;
     cardBackImage?: string;
+    revealActiveInfo?: boolean; // New prop to control text visibility
 }
 
 /* ────────────────────────────── layout math helpers ──── */
@@ -82,6 +83,7 @@ export function CardStack({
     autoAdvanceMs = 2500,
     className,
     cardBackImage,
+    revealActiveInfo = true,
 }: CardStackProps) {
     const [isPaused, setIsPaused] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -209,7 +211,7 @@ export function CardStack({
 
                             {/* Card content */}
                             <div className="relative h-full flex flex-col justify-end p-5">
-                                {style.isActive && (
+                                {style.isActive && revealActiveInfo && (
                                     <>
                                         <h3
                                             className={cn(

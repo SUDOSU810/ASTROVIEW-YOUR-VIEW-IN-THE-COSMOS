@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Sparkles, Trophy, RotateCcw, ChevronRight, Star, Zap,
-    Clock, Award, ArrowRight, Keyboard, Heart,
+    Clock, Award, ArrowRight, Keyboard, Heart, Info, X
 } from "lucide-react";
 import { CardStack, type CardItem } from "../components/ui/card-stack";
 import { Starfield } from "../components/Starfield";
@@ -18,6 +18,7 @@ import './ConstellationGame.css';
 /* ────────────────────────────── component ────────────── */
 export default function ConstellationGame() {
     const [showIntro, setShowIntro] = useState(true);
+    const [showGuide, setShowGuide] = useState(false); // User Guide state
     const videoRef = useRef<HTMLVideoElement>(null);
 
     /* ── Explore state ── */
@@ -329,6 +330,132 @@ export default function ConstellationGame() {
                     )}
                 </AnimatePresence>
 
+                {/* ── User Guide Modal (Enhanced) ── */}
+                <AnimatePresence>
+                    {showGuide && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+                            onClick={() => setShowGuide(false)}
+                        >
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                className="bg-[#0B1221]/95 border border-cyan-500/40 p-10 pb-12 rounded-2xl max-w-4xl w-full text-white shadow-[0_0_60px_rgba(6,182,212,0.2)] relative overflow-hidden"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {/* Background glow effect */}
+                                <div className="absolute -top-20 -right-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px]" />
+                                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px]" />
+
+                                <button
+                                    onClick={() => setShowGuide(false)}
+                                    className="absolute top-5 right-5 p-2 text-cyan-400/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+
+                                <div className="relative z-10">
+                                    <h2 className="text-4xl font-bold text-center mb-8 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+                                        Mission Briefing
+                                    </h2>
+
+                                    <div className="space-y-8 text-slate-300">
+                                        <div className="flex gap-6 items-start p-6 bg-gradient-to-br from-cyan-900/20 to-transparent rounded-xl border border-cyan-500/20">
+                                            <div className="p-4 bg-cyan-500/10 rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                                                <Trophy className="w-8 h-8 text-cyan-300" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-bold text-white mb-2 tracking-wide">OBJECTIVE</h3>
+                                                <p className="text-lg leading-relaxed text-cyan-100/80">
+                                                    Identify 88 constellations across 9 levels of increasing difficulty.
+                                                    Keep your streak alive and manage your 3 Hearts to survive the cosmos.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Game Modes */}
+                                            <div className="p-6 bg-slate-900/40 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors group">
+                                                <h4 className="text-cyan-300 font-bold mb-4 flex items-center gap-3 uppercase tracking-wider text-sm">
+                                                    <Star className="w-4 h-4" /> Classification Levels
+                                                </h4>
+                                                <ul className="space-y-3">
+                                                    <li className="flex items-center gap-3">
+                                                        <span className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
+                                                        <span className="text-slate-200">Level 1-3 <span className="text-slate-500 text-sm ml-1">(15s Timer)</span></span>
+                                                    </li>
+                                                    <li className="flex items-center gap-3">
+                                                        <span className="w-2 h-2 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
+                                                        <span className="text-slate-200">Level 4-6 <span className="text-slate-500 text-sm ml-1">(8s Timer)</span></span>
+                                                    </li>
+                                                    <li className="flex items-center gap-3">
+                                                        <span className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                                                        <span className="text-slate-200">Level 7-9 <span className="text-slate-500 text-sm ml-1">(Type Name)</span></span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            {/* Survival */}
+                                            <div className="p-6 bg-slate-900/40 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors group">
+                                                <h4 className="text-cyan-300 font-bold mb-4 flex items-center gap-3 uppercase tracking-wider text-sm">
+                                                    <Heart className="w-4 h-4" /> Life Support
+                                                </h4>
+                                                <ul className="space-y-3 text-slate-300">
+                                                    <li className="flex items-start gap-3">
+                                                        <Heart className="w-4 h-4 text-red-500 fill-red-500/50 mt-1" />
+                                                        <span>You start with <strong>3 Hearts</strong>.</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-3">
+                                                        <Heart className="w-4 h-4 text-slate-600 mt-1" />
+                                                        <span>Wrong answer or timeout costs <strong>1 Heart</strong>.</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-3">
+                                                        <Zap className="w-4 h-4 text-yellow-400 fill-yellow-400/50 mt-1" />
+                                                        <span>Complete a level to <strong>Refill Hearts</strong>!</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-6 border-t border-white/10 text-center flex justify-center">
+                                            <button
+                                                onClick={() => setShowGuide(false)}
+                                                className="group relative px-10 py-3 bg-cyan-600/20 hover:bg-cyan-500/30 border border-cyan-500/50 rounded-full font-bold text-cyan-300 hover:text-white transition-all overflow-hidden"
+                                            >
+                                                <span className="relative z-10 flex items-center gap-2">
+                                                    INITIATE
+                                                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                </span>
+                                                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* ── Top Left Guide Button ── */}
+                <motion.div
+                    className="absolute top-6 left-6 z-30 flex items-center gap-3 group cursor-pointer"
+                    onClick={() => setShowGuide(true)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    <div className="p-3 bg-slate-900/40 backdrop-blur-md border border-cyan-500/20 rounded-full text-cyan-400 group-hover:bg-cyan-500/20 group-hover:border-cyan-400/60 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+                        <Info className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    </div>
+                    <span className="text-xs font-bold tracking-[0.2em] text-cyan-400/70 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.8)] transition-all uppercase select-none whitespace-nowrap">
+                        How to Play
+                    </span>
+                </motion.div>
                 {/* ── Timer bar ── */}
                 <AnimatePresence>
                     {quizMode && !showLevelUp && !showBadge && !answered && (
@@ -364,6 +491,7 @@ export default function ConstellationGame() {
                         }}
                         autoAdvanceMs={quizMode ? 999999 : 2500}
                         cardBackImage={cardBackImg}
+                        revealActiveInfo={!quizMode || answered !== null}
                     />
                 </div>
 
