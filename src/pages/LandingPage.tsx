@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from '@studio-freight/lenis'
 import Header from '../components/ui/curved-menu'
 import Footer from '../components/Footer'
+import { GlowingFeatureCards } from '../components/GlowingFeatureCards'
 import './LandingPage.css'
 import heroVideo from '../assets/astroview_hero.mp4'
 import eliteVideo from '../assets/astroview_elite - Made with Clipchamp.mp4'
@@ -260,6 +261,9 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* ── Glowing Feature Cards ── */}
+        <GlowingFeatureCards />
 
         {/* ── What is AstroView ── */}
         <section className="about-section">
