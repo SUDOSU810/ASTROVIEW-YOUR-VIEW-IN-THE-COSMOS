@@ -362,7 +362,7 @@ const CurvedNavbar: React.FC<
 +            <div className="absolute bottom-6 right-6" style={{ zIndex: 1 }}>
 +              {footer}
 +            </div>
-+          )
+          )}
 +        </div>
 
           {/* Social links at bottom of the arc */}
