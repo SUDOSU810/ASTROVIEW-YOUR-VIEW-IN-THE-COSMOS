@@ -34,15 +34,15 @@ export default function Profile() {
                     )}
                     <div className="profile-detail-row">
                         <span className="profile-label">🔔 ISS Alerts</span>
-                        <span className="profile-value">{user.preferences?.issAlerts ? 'On' : 'Off'}</span>
+                        <span className="profile-value">{user.preferences?.notifyISS ? 'On' : 'Off'}</span>
                     </div>
                     <div className="profile-detail-row">
                         <span className="profile-label">☀️ Solar Alerts</span>
-                        <span className="profile-value">{user.preferences?.solarAlerts ? 'On' : 'Off'}</span>
+                        <span className="profile-value">{user.preferences?.notifySolar ? 'On' : 'Off'}</span>
                     </div>
                     <div className="profile-detail-row">
                         <span className="profile-label">🌪️ Disaster Alerts</span>
-                        <span className="profile-value">{user.preferences?.disasterAlerts ? 'On' : 'Off'}</span>
+                        <span className="profile-value">{user.preferences?.notifyDisaster ? 'On' : 'Off'}</span>
                     </div>
                 </div>
 

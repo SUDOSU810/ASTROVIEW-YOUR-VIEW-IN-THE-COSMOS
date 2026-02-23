@@ -357,6 +357,13 @@ const CurvedNavbar: React.FC<
               );
             })}
           </div>
++          {/* optional footer content rendered at bottom */}
++          {footer && (
++            <div className="absolute bottom-6 right-6" style={{ zIndex: 1 }}>
++              {footer}
++            </div>
++          )
++        </div>
 
           {/* Social links at bottom of the arc */}
           <motion.div
