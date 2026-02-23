@@ -363,7 +363,7 @@ const CurvedNavbar: React.FC<
 +              {footer}
 +            </div>
           )}
-+        </div>
+
 
           {/* Social links at bottom of the arc */}
           <motion.div
