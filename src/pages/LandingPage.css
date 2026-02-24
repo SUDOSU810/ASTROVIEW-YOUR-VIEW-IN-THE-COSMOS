@@ -578,10 +578,21 @@
     overflow: hidden;
     margin-top: -2px;
     min-height: 60vh;
-    /* Make footer bigger to see more video */
     display: flex;
     align-items: center;
-    /* Center footer content vertically */
+}
+
+/* Smooth fade-in from the page background into the video */
+.footer-video-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(to bottom, #0a0e1a 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .footer-video-bg {
@@ -607,7 +618,7 @@
 .footer-video-overlay {
     position: absolute;
     inset: 0;
-    /* background removed as per request */
+    background: radial-gradient(ellipse at 50% 0%, rgba(10, 14, 26, 0.4) 0%, transparent 60%);
     z-index: 1;
     pointer-events: none;
 }

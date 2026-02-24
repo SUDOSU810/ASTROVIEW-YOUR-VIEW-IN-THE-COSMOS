@@ -361,12 +361,33 @@ function createAsciiTrail(scene: THREE.Scene) {
 }
 
 // ═══════════════════════════════════════
-// Orbit Path — dual orbits → fly to divider → scroll down divider
+// DOM element center → Three.js world coordinate
+// ═══════════════════════════════════════
+function domToWorld(
+  el: Element,
+  camera: THREE.PerspectiveCamera
+): { x: number; y: number } {
+  const rect = el.getBoundingClientRect()
+  const cx = rect.left + rect.width / 2
+  const cy = rect.top + rect.height / 2
+  const ndcX = (cx / window.innerWidth) * 2 - 1
+  const ndcY = -(cy / window.innerHeight) * 2 + 1
+  const halfH = Math.tan((camera.fov / 2) * Math.PI / 180) * camera.position.z
+  const halfW = halfH * camera.aspect
+  return { x: ndcX * halfW, y: ndcY * halfH }
+}
+
+interface CardPos { x: number; y: number }
+
+// ═══════════════════════════════════════
+// Orbit Path — dual orbits → divider → bounce → swipe
 // ═══════════════════════════════════════
 function getTargetTransform(
   progress: number,
   time: number,
-  dividerWorldX: number
+  dividerWorldX: number,
+  bentoCards: CardPos[],
+  teamCards: CardPos[]
 ): { pos: THREE.Vector3; rot: THREE.Euler; scale: number } {
   const ss = (t: number) => t * t * (3 - 2 * t)
 
@@ -423,31 +444,165 @@ function getTargetTransform(
     }
   }
 
-  // Phase 6: Full orbit behind bento grid (82–100%)
-  {
-    const t = (progress - 0.82) / 0.18
-    const angle = t * Math.PI * 2
-    // Wide elliptical orbit behind the bento cards
-    const orbitX = Math.cos(angle) * 4.5
-    const orbitY = Math.sin(angle) * 2.5
-    // z is negative so satellite renders behind content
-    const orbitZ = -2.0 + Math.sin(angle * 2) * 0.5
-    // Smooth transition from divider end position to orbit start
-    const blendIn = ss(Math.min(t * 4, 1.0))
-    const startX = dividerWorldX
-    const startY = -3.0
+  // Phase 6: Fly to Intelligence → bounce to Personalization → bounce to Visibility (82–86%)
+  if (progress <= 0.86 && bentoCards.length >= 3) {
+    const t = (progress - 0.82) / 0.04   // 0→1
+    const cards = bentoCards.slice(0, 3)  // Intelligence, Personalization, Visibility
+
+    // First part (0→0.3): fly from divider end to Intelligence card
+    if (t <= 0.3) {
+      const ft = ss(t / 0.3)
+      return {
+        pos: new THREE.Vector3(
+          lerp(dividerWorldX, cards[0].x, ft),
+          lerp(-3.0, cards[0].y, ft),
+          lerp(0, 1.5, ft)
+        ),
+        rot: new THREE.Euler(
+          lerp(0.02, 0, ft),
+          lerp(Math.PI * 0.5, Math.PI, ft),
+          lerp(0, -0.3, ft)
+        ),
+        scale: 0.35,
+      }
+    }
+
+    // Second part (0.3→1.0): bounce card to card
+    const bounceT = (t - 0.3) / 0.7
+    const segFloat = bounceT * 2
+    const segIndex = Math.min(Math.floor(segFloat), 1)
+    const segT = segFloat - segIndex
+
+    const curr = cards[segIndex]
+    const next = cards[segIndex + 1]
+
+    const eased = segT * segT * (3 - 2 * segT)
+    const arcHeight = Math.sin(segT * Math.PI) * 2.0  // big bounce arc
+
+    const x = curr.x + (next.x - curr.x) * eased
+    const y = curr.y + arcHeight  // bounce UP from card level
+
+    const hitPulse = Math.cos(segT * Math.PI) * 0.08
+    const scale = 0.33 + Math.max(0, hitPulse)
+
+    const spinAngle = (0.3 + bounceT * 0.7) * Math.PI * 4
+
+    return {
+      pos: new THREE.Vector3(x, y, 1.5),
+      rot: new THREE.Euler(
+        Math.sin(spinAngle) * 0.2,
+        spinAngle,
+        Math.cos(spinAngle) * 0.15
+      ),
+      scale,
+    }
+  }
+
+  // Phase 6b: Drift from Visibility card down toward team section (86–90%)
+  if (progress <= 0.90) {
+    const t = ss((progress - 0.86) / 0.04)
+    const lastBento = bentoCards.length >= 3 ? bentoCards[2] : { x: 1.1, y: 1.5 }
+    const teamCenterY = teamCards.length >= 4
+      ? (teamCards[0].y + teamCards[3].y) / 2
+      : lastBento.y - 3.0
+    const hover = Math.sin(time * 1.5) * 0.05
     return {
       pos: new THREE.Vector3(
-        lerp(startX, orbitX, blendIn),
-        lerp(startY, orbitY, blendIn),
-        lerp(0, orbitZ, blendIn)
+        lerp(lastBento.x, 0, t),
+        lerp(lastBento.y, teamCenterY + 2.0, t) + hover,
+        1.5
       ),
       rot: new THREE.Euler(
-        Math.sin(angle) * 0.15,
-        angle + Math.PI * 0.5,
-        Math.cos(angle) * 0.1
+        0.05,
+        lerp(Math.PI * 2, Math.PI * 0.5, t),
+        lerp(0.15, 0, t)
       ),
-      scale: lerp(0.35, 0.3, blendIn),
+      scale: lerp(0.33, 0.30, t),
+    }
+  }
+
+  // Phase 7: Orbit around team cards, revealing each (90–98%)
+  if (progress <= 0.98 && teamCards.length >= 4) {
+    const t = (progress - 0.90) / 0.08
+    const lastBento = bentoCards.length >= 3 ? bentoCards[2] : { x: 1.1, y: 1.5 }
+
+    // Compute orbit center and radii from team card spread
+    const centerX = (teamCards[0].x + teamCards[3].x) / 2
+    const centerY = (teamCards[0].y + teamCards[3].y) / 2
+    const radiusX = Math.abs(teamCards[3].x - teamCards[0].x) / 2 + 1.0  // wider than card spread
+    const radiusY = radiusX * 0.5  // elliptical — flatter vertically
+
+    // First 12%: fly from Visibility card to top of orbit
+    if (t <= 0.12) {
+      const ft = ss(t / 0.12)
+      // Reveal first card as we arrive
+      if (ft > 0.5 && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('satellite-reveal-card', { detail: { index: 0 } }))
+      }
+      const orbitStartX = centerX
+      const orbitStartY = centerY + radiusY
+      return {
+        pos: new THREE.Vector3(
+          lerp(lastBento.x, orbitStartX, ft),
+          lerp(lastBento.y, orbitStartY, ft),
+          1.5
+        ),
+        rot: new THREE.Euler(0.1, Math.PI * 0.5, lerp(0, -0.2, ft)),
+        scale: lerp(0.33, 0.30, ft),
+      }
+    }
+
+    // 88% of phase: full orbit (clockwise)
+    const orbitT = (t - 0.12) / 0.88  // 0→1 = full loop
+    const angle = -orbitT * Math.PI * 2 + Math.PI / 2  // start from top, go clockwise
+
+    const x = centerX + Math.cos(angle) * radiusX
+    const y = centerY + Math.sin(angle) * radiusY
+
+    // Z oscillation — satellite goes behind cards at bottom, in front at top
+    const z = 1.5 + Math.sin(angle) * 0.8
+
+    // Reveal cards at specific orbit positions (4 cards at ~0%, 25%, 50%, 75%)
+    const revealIndex = Math.min(Math.floor(orbitT * 4), 3)
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('satellite-reveal-card', { detail: { index: revealIndex } }))
+    }
+
+    // Scale varies — larger when closer (in front), smaller when far (behind)
+    const scalePulse = 0.28 + Math.sin(angle) * 0.04
+
+    return {
+      pos: new THREE.Vector3(x, y, z),
+      rot: new THREE.Euler(
+        Math.cos(angle) * 0.15,
+        angle + Math.PI,  // face direction of travel
+        Math.sin(angle) * 0.1
+      ),
+      scale: scalePulse,
+    }
+  }
+
+  // Phase 8: Descend and exit from orbit (98–100%)
+  {
+    const centerX = teamCards.length >= 4 ? (teamCards[0].x + teamCards[3].x) / 2 : 0
+    const centerY = teamCards.length >= 4 ? (teamCards[0].y + teamCards[3].y) / 2 : -1
+    const radiusX = teamCards.length >= 4 ? Math.abs(teamCards[3].x - teamCards[0].x) / 2 + 1.0 : 3
+    // Exit from the right side of the orbit
+    const exitX = centerX + radiusX
+    const exitY = centerY
+    const t = ss((progress - 0.98) / 0.02)
+    return {
+      pos: new THREE.Vector3(
+        lerp(exitX, exitX + 2.0, t),
+        lerp(exitY, exitY - 3.0, t),
+        lerp(1.5, -1.0, t)
+      ),
+      rot: new THREE.Euler(
+        lerp(0.05, 0.4, t),
+        Math.PI * 0.8,
+        lerp(0.1, 0.5, t)
+      ),
+      scale: lerp(0.28, 0.1, t),
     }
   }
 }
@@ -514,13 +669,13 @@ export default function SatelliteScrollAnimation() {
     const currentRot = new THREE.Euler(0, 0, 0)
     let currentScale = 0
 
-    // ScrollTrigger — extended through bento features section
+    // ScrollTrigger — extended through team section
     const scrollTrigger = ScrollTrigger.create({
       trigger: '.hero-video-section',
       start: 'top top',
-      endTrigger: '.glowing-features-section',
+      endTrigger: '.team-section-anchor',
       end: 'bottom bottom',
-      scrub: 1.5,
+      scrub: 3,
       onUpdate: (self) => { state.scrollProgress = self.progress },
     })
 
@@ -542,17 +697,42 @@ export default function SatelliteScrollAnimation() {
       let dividerWorldX = 0
       const dividerEl = document.querySelector('.text-showcase-divider-h')
       if (dividerEl) {
-        const rect = dividerEl.getBoundingClientRect()
-        const screenX = rect.left + rect.width / 2
-        const ndcX = (screenX / window.innerWidth) * 2 - 1
-        // Convert NDC to world X at z=0 (camera at z=8, FOV=50°)
-        const halfHeight = Math.tan((50 / 2) * Math.PI / 180) * 8
-        const halfWidth = halfHeight * camera.aspect
-        dividerWorldX = ndcX * halfWidth
+        const pos = domToWorld(dividerEl, camera)
+        dividerWorldX = pos.x
+      }
+
+      // Compute bento card world positions from DOM
+      const bentoEls = document.querySelectorAll('.magic-bento-card')
+      const bentoCards: CardPos[] = []
+      bentoEls.forEach((el, i) => {
+        if (i < 3) bentoCards.push(domToWorld(el, camera)) // Intelligence, Personalization, Visibility
+      })
+
+      // Compute team card world positions from fan layout math
+      // Cards use: x = distanceFromCenter * 130px, y = |distanceFromCenter| * -40px
+      const teamContainer = document.querySelector('.team-section-anchor .relative.mt-20')
+      const teamCardPositions: CardPos[] = []
+      if (teamContainer) {
+        const containerCenter = domToWorld(teamContainer, camera)
+        const halfH = Math.tan((camera.fov / 2) * Math.PI / 180) * camera.position.z
+        const halfW = halfH * camera.aspect
+        const pxToWorldX = (halfW * 2) / window.innerWidth
+        const pxToWorldY = (halfH * 2) / window.innerHeight
+        const numMembers = 4
+        const centerIndex = (numMembers - 1) / 2  // 1.5
+        for (let i = 0; i < numMembers; i++) {
+          const dist = i - centerIndex
+          const offsetX = dist * 130 * pxToWorldX
+          const offsetY = Math.abs(dist) * -40 * pxToWorldY
+          teamCardPositions.push({
+            x: containerCenter.x + offsetX,
+            y: containerCenter.y - offsetY  // invert because world Y is up
+          })
+        }
       }
 
       // Target
-      const target = getTargetTransform(progress, time, dividerWorldX)
+      const target = getTargetTransform(progress, time, dividerWorldX, bentoCards, teamCardPositions)
 
       // Smooth lerp
       const lf = 1 - Math.pow(1 - LERP_SPEED, delta * 60)
@@ -569,7 +749,7 @@ export default function SatelliteScrollAnimation() {
       satellite.scale.setScalar(currentScale)
 
       // Trail (active during orbits and behind-bento orbit)
-      const trailActive = (progress > 0.05 && progress < 0.50 || progress > 0.82) && satellite.visible
+      const trailActive = (progress > 0.05 && progress < 0.50 || progress > 0.82) && progress < 0.96 && satellite.visible
       asciiTrail.update(satellite.position, trailActive, delta)
 
       // LED pulse

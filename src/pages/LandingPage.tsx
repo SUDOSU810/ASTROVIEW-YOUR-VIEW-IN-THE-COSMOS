@@ -8,6 +8,9 @@ import Footer from '../components/Footer'
 import MagicBento from '../components/MagicBento'
 import SatelliteScrollAnimation from '../components/SatelliteScrollAnimation'
 import TextShowcaseSection from '../components/TextShowcaseSection'
+import { AnimatedTeamSection } from '../components/ui/team-section'
+import ScrollStack, { ScrollStackItem } from '../components/ScrollStack'
+import GradualBlur from '../components/GradualBlur'
 import './LandingPage.css'
 import heroVideo from '../assets/astroview_hero.mp4'
 import eliteVideo from '../assets/astroview_elite - Made with Clipchamp.mp4'
@@ -265,102 +268,63 @@ export default function LandingPage() {
           />
         </section>
 
-        {/* ── Features ── */}
-        <section className="features" id="features">
-          <div className="section-header" data-speed="0.9">
-            <span className="section-badge">👥 ALMA MALDITAS, SR-05</span>
-            <h2 className="section-title">Meet Our Team</h2>
-            <p className="section-subtitle">
-              The people behind AstroView — building your window to the cosmos.
-            </p>
-          </div>
-          <div className="features-grid">
-            <div className="feature-card" data-speed="0.85">
-              <div className="feature-icon">🛰️</div>
-              <h3 className="team-name">Manas<br />Mungekar</h3>
-              <p>Team Lead</p>
-            </div>
-            <div className="feature-card" data-speed="0.9">
-              <div className="feature-icon">🛰️</div>
-              <h3 className="team-name">Ved<br />Motwani</h3>
-              <p>&nbsp;</p>
-            </div>
-            <div className="feature-card" data-speed="0.85">
-              <div className="feature-icon">🛰️</div>
-              <h3 className="team-name">Yash<br />Sharma</h3>
-              <p>&nbsp;</p>
-            </div>
-            <div className="feature-card" data-speed="0.9">
-              <div className="feature-icon">🛰️</div>
-              <h3 className="team-name">Vaibhav<br />Kankonkar</h3>
-              <p>&nbsp;</p>
-            </div>
-          </div>
-        </section>
+        {/* ── Team ── */}
+        <AnimatedTeamSection
+          title="Meet Our Team"
+          description="Alma Malditas, SR-05 — The people behind AstroView, building your window to the cosmos."
+          members={[
+            { name: "Manas Mungekar", emoji: "🛰️" },
+            { name: "Ved Motwani", emoji: "🔭" },
+            { name: "Yash Sharma", emoji: "🌌" },
+            { name: "Vaibhav Kankonkar", emoji: "🚀" },
+          ]}
+        />
 
         {/* ── Why AstroView ── */}
-        <section className="about-section">
-          <div className="about-text" data-speed="0.9">
+        <section className="why-astroview-section">
+          <div className="section-header">
+            <span className="section-badge">✨ Why AstroView</span>
             <h2 className="section-title">Why AstroView?</h2>
-            <div className="about-stats">
-              <div className="about-stat">
-                <span className="stat-number">24/7</span>
-                <span className="stat-label">Live Space Monitoring</span>
-              </div>
-              <div className="about-stat">
-                <span className="stat-number">5+</span>
-                <span className="stat-label">Data Sources Aggregated</span>
-              </div>
-              <div className="about-stat">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Location-Personalized</span>
-              </div>
-            </div>
-            <p className="about-paragraph">
-              Most space data is buried in technical jargon and scattered across
-              dozens of sources. AstroView brings it all together, simplifies
-              the complexity, and delivers what matters — directly to you.
-              No PhD required.
+            <p className="section-subtitle">
+              Everything you need to explore the cosmos — simplified, personalized, and real-time.
             </p>
           </div>
         </section>
+        <ScrollStack
+          itemDistance={80}
+          itemStackDistance={20}
+          baseScale={0.9}
+          className="astro-scroll-stack"
+        >
+          <ScrollStackItem itemClassName="astro-card">
+            <span className="card-icon">🛰️</span>
+            <span className="card-stat">24/7</span>
+            <h3 className="card-title">Live Space Monitoring</h3>
+            <p className="card-description">
+              Real-time data streams from NASA, the ISS, and global weather APIs —
+              monitored around the clock so you never miss a cosmic event.
+            </p>
+          </ScrollStackItem>
+          <ScrollStackItem itemClassName="astro-card">
+            <span className="card-icon">📡</span>
+            <span className="card-stat">5+</span>
+            <h3 className="card-title">Data Sources Aggregated</h3>
+            <p className="card-description">
+              We pull from dozens of scattered, technical sources and consolidate
+              everything into one clean dashboard. No more tab-hopping.
+            </p>
+          </ScrollStackItem>
+          <ScrollStackItem itemClassName="astro-card">
+            <span className="card-icon">📍</span>
+            <span className="card-stat">100%</span>
+            <h3 className="card-title">Location-Personalized</h3>
+            <p className="card-description">
+              Every data point is localized to your exact coordinates — visibility scores,
+              pass predictions, and alerts tailored to where you are. No PhD required.
+            </p>
+          </ScrollStackItem>
+        </ScrollStack>
 
-        {/* ── How It Works ── */}
-        <section className="how-it-works" id="how-it-works">
-          <div className="section-header" data-speed="0.9">
-            <span className="section-badge">⚡ How It Works</span>
-            <h2 className="section-title">From data to discovery in seconds</h2>
-          </div>
-          <div className="steps-grid">
-            <div className="step-card" data-speed="0.85">
-              <div className="step-number">01</div>
-              <div className="step-icon">📍</div>
-              <h3>Detect Location</h3>
-              <p>We pinpoint your geographic coordinates to localize all space data.</p>
-            </div>
-            <div className="step-connector" />
-            <div className="step-card" data-speed="0.9">
-              <div className="step-number">02</div>
-              <div className="step-icon">📡</div>
-              <h3>Fetch Space Data</h3>
-              <p>Live data from NASA, ISS, and weather APIs is aggregated in real-time.</p>
-            </div>
-            <div className="step-connector" />
-            <div className="step-card" data-speed="0.85">
-              <div className="step-number">03</div>
-              <div className="step-icon">🧠</div>
-              <h3>Analyze &amp; Simplify</h3>
-              <p>Complex metrics are processed into clear visibility scores and alerts.</p>
-            </div>
-            <div className="step-connector" />
-            <div className="step-card" data-speed="0.9">
-              <div className="step-number">04</div>
-              <div className="step-icon">🚀</div>
-              <h3>Deliver Insight</h3>
-              <p>You get personalized sky info, event notifications, and impact analysis.</p>
-            </div>
-          </div>
-        </section>
 
         {/* ── CTA Banner ── */}
         <section className="cta-banner">
@@ -388,6 +352,18 @@ export default function LandingPage() {
         </div>
         <Footer />
       </div>
+
+      {/* ── Page-level gradual blur at the bottom ── */}
+      <GradualBlur
+        target="page"
+        position="bottom"
+        height="7rem"
+        strength={2}
+        divCount={5}
+        curve="bezier"
+        exponential
+        opacity={1}
+      />
     </div>
   )
 }

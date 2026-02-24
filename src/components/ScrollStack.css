@@ -1,0 +1,114 @@
+.scroll-stack-scroller {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: visible;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: scroll-position;
+}
+
+.scroll-stack-inner {
+    padding: 8vh 5rem 25rem;
+    min-height: 80vh;
+}
+
+.scroll-stack-card-wrapper {
+    position: relative;
+}
+
+.scroll-stack-card {
+    transform-origin: top center;
+    will-change: transform, filter;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    height: 14rem;
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 2rem;
+    border-radius: 40px;
+    box-sizing: border-box;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    position: relative;
+    transition: filter 0.3s ease;
+}
+
+.scroll-stack-end {
+    width: 100%;
+    height: 1px;
+}
+
+/* ── AstroView-themed card styles ── */
+.scroll-stack-card.astro-card {
+    background: linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(20, 25, 50, 0.92) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(123, 97, 255, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.astro-card .card-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.astro-card .card-stat {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00F5FF, #7B61FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+
+.astro-card .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.astro-card .card-description {
+    font-size: 0.9rem;
+    color: #A0A7C0;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .scroll-stack-inner {
+        padding: 10vh 1.5rem 40rem;
+    }
+
+    .scroll-stack-card {
+        height: 13rem;
+        padding: 1.5rem;
+        border-radius: 24px;
+    }
+
+    .astro-card .card-stat {
+        font-size: 2.5rem;
+    }
+
+    .astro-card .card-title {
+        font-size: 1.2rem;
+    }
+
+    .astro-card .card-description {
+        font-size: 0.9rem;
+    }
+}
