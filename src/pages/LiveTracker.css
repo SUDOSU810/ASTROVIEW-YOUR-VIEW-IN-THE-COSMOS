@@ -1,0 +1,247 @@
+/* ═══════════════════════════════════════════
+   AstroView — Live Tracker Styles
+   ═══════════════════════════════════════════ */
+
+.live-tracker {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.live-tracker::-webkit-scrollbar {
+    display: none;
+}
+
+.tracker-map {
+    width: 100%;
+    height: 100%;
+    background: #070B1A;
+}
+
+/* ── ISS Marker ── */
+.iss-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.iss-dot {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    animation: iss-pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(0, 245, 255, 0.6));
+}
+
+@keyframes iss-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* ── Info Panel ── */
+.tracker-panel {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 280px;
+    max-height: calc(100vh - 60px - 3rem);
+    overflow-y: auto;
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 8, 16, 0.88);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tracker-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.tracker-panel h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.tracker-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85rem;
+}
+
+.tracker-row span {
+    color: #A0A7C0;
+}
+
+.tracker-row strong {
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+}
+
+.tracker-row:last-of-type {
+    border-bottom: none;
+}
+
+.tracker-refresh-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: rgba(160, 167, 192, 0.5);
+}
+
+.tracker-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00FF88;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+    animation: live-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* ── Region Label ── */
+.tracker-region {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(0, 245, 255, 0.06);
+    border: 1px solid rgba(0, 245, 255, 0.12);
+    font-size: 0.8rem;
+    color: #A0A7C0;
+}
+
+.tracker-region strong {
+    color: #00F5FF;
+}
+
+.tracker-region-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00F5FF;
+    box-shadow: 0 0 6px rgba(0, 245, 255, 0.5);
+    flex-shrink: 0;
+}
+
+/* ── Astronaut Panel ── */
+.tracker-astronauts {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tracker-astronauts h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.tracker-astro-loading {
+    font-size: 0.78rem;
+    color: #A0A7C0;
+}
+
+.tracker-astro-list {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tracker-astro-list::-webkit-scrollbar {
+    display: none;
+}
+
+.tracker-craft-group {
+    margin-bottom: 0.6rem;
+}
+
+.tracker-craft-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00F5FF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.tracker-astro-name {
+    font-size: 0.78rem;
+    color: #cdd3e0;
+    padding: 0.15rem 0 0.15rem 0.6rem;
+    border-left: 2px solid rgba(0, 245, 255, 0.2);
+}
+
+/* Override leaflet dark tiles */
+.leaflet-container {
+    background: #070B1A !important;
+}
+
+@media (max-width: 600px) {
+    .tracker-panel {
+        top: auto;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        width: auto;
+    }
+
+    .tracker-astro-list {
+        max-height: 120px;
+    }
+}
+
+/* ── Learn More Button ── */
+.learn-more-btn {
+    margin-top: 0.75rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    background: rgba(0, 245, 255, 0.06);
+    color: #00F5FF;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    letter-spacing: 0.3px;
+}
+
+.learn-more-btn:hover {
+    background: rgba(0, 245, 255, 0.12);
+    border-color: rgba(0, 245, 255, 0.35);
+    transform: translateY(-1px);
+}

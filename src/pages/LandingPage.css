@@ -1,0 +1,624 @@
+/* ═══════════════════════════════════════════
+   AstroView — Landing Page Styles
+   ═══════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Landing Container ──────────────────── */
+.landing {
+    width: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ═══════════ SHARED VIDEO STYLES ═══════════ */
+.video-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Per-section video background (relative, not fixed) */
+.video-section-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Fade-to-dark overlay (activates when hero video ends) */
+.video-fade-overlay {
+    position: absolute;
+    inset: 0;
+    background: #050810;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.video-fade-overlay.active {
+    opacity: 1;
+}
+
+/* Edge blur masks for seamless blending */
+.video-edge-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, #050810 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.video-edge-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top, #050810 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.video-edge-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    background: linear-gradient(to right, #050810 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.video-edge-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 80px;
+    background: linear-gradient(to left, #050810 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ═══════════ ELITE VIDEO (fixed background, loops forever) ═══════════ */
+.elite-video-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0;
+    will-change: opacity;
+}
+
+.elite-video-overlay {
+    position: absolute;
+    inset: 0;
+    /* background removed as per request */
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ═══════════ CONTENT LAYER (floats above elite video) ═══════════ */
+.landing-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ═══════════ ABOUT SECTIONS ═══════════ */
+.about-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 6rem 2rem;
+}
+
+.about-text {
+    max-width: 720px;
+    text-align: center;
+}
+
+.about-paragraph {
+    font-size: 1.05rem;
+    color: #c0c5d8;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.about-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+}
+
+.about-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    min-width: 160px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00F5FF, #7B61FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.82rem;
+    color: #A0A7C0;
+    letter-spacing: 0.3px;
+}
+
+/* ═══════════ HERO VIDEO SECTION (looping, no text) ═══════════ */
+.hero-video-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    will-change: opacity;
+}
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* background removed as per request */
+    justify-content: center;
+}
+
+/* ── Hero Nav ── */
+.hero-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2rem;
+}
+
+.hero-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
+    color: #fff;
+}
+
+.brand-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00F5FF;
+    box-shadow: 0 0 16px rgba(0, 245, 255, 0.5);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 16px rgba(0, 245, 255, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 28px rgba(0, 245, 255, 0.8);
+    }
+}
+
+.hero-nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.hero-nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #A0A7C0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.hero-nav-links a:hover {
+    color: #00F5FF;
+}
+
+/* ── Hero Center ── */
+.hero-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 2rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    font-size: 0.85rem;
+    color: #00F5FF;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-heading {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+}
+
+.hero-heading em {
+    font-style: normal;
+    background: linear-gradient(135deg, #00F5FF, #7B61FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.05rem;
+    color: #A0A7C0;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+}
+
+/* ── CTA Buttons ── */
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00F5FF, #7B61FF);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 245, 255, 0.3);
+}
+
+.btn-primary.btn-lg {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 14px;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ═══════════ SHARED SECTION STYLES ═══════════ */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+    color: #00F5FF;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.75rem;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: #A0A7C0;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ═══════════ SECTION 3: FEATURES ═══════════ */
+.features {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.feature-card {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    text-align: center;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(0, 245, 255, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 245, 255, 0.08);
+}
+
+.feature-icon {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card h3.team-name {
+    font-size: 1.4rem;
+    line-height: 1.3;
+}
+
+.feature-card p {
+    font-size: 0.85rem;
+    color: #A0A7C0;
+    line-height: 1.5;
+}
+
+/* ═══════════ SECTION 4: HOW IT WORKS ═══════════ */
+.how-it-works {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.steps-grid {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.step-card {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    text-align: center;
+    position: relative;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.step-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-4px);
+}
+
+.step-number {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: rgba(0, 245, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.step-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.step-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.step-card p {
+    font-size: 0.82rem;
+    color: #A0A7C0;
+    line-height: 1.45;
+}
+
+.step-connector {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 245, 255, 0.3), rgba(123, 97, 255, 0.3));
+    flex-shrink: 0;
+}
+
+/* ═══════════ CTA BANNER ═══════════ */
+.cta-banner {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: radial-gradient(ellipse at 50% 50%, rgba(0, 245, 255, 0.06) 0%, transparent 70%);
+}
+
+.cta-banner h2 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.cta-banner p {
+    color: #A0A7C0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps-grid {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .step-connector {
+        width: 2px;
+        height: 30px;
+        background: linear-gradient(180deg, rgba(0, 245, 255, 0.3), rgba(123, 97, 255, 0.3));
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-title-line {
+        font-size: clamp(3.5rem, 20vw, 6rem);
+        letter-spacing: -2px;
+    }
+
+    .hero-nav-links {
+        display: none;
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .hero-heading {
+        font-size: 1.8rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+/* ═══════════ FOOTER VIDEO ═══════════ */
+.footer-video-section {
+    position: relative;
+    overflow: hidden;
+    margin-top: -2px;
+    min-height: 60vh;
+    /* Make footer bigger to see more video */
+    display: flex;
+    align-items: center;
+    /* Center footer content vertically */
+}
+
+.footer-video-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    display: flex;
+    /* centers the video */
+    justify-content: center;
+    /* horizontally */
+    align-items: center;
+    /* vertically */
+}
+
+
+.footer-video-bg .video-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.footer-video-overlay {
+    position: absolute;
+    inset: 0;
+    /* background removed as per request */
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Override Footer component styles when inside the video section */
+.footer-video-section .site-footer {
+    position: relative;
+    z-index: 2;
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 100%;
+    /* Ensure full width */
+}

@@ -1,0 +1,71 @@
+/* ── App Navbar ──────────────────────────── */
+.app-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.app-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.3px;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.app-nav-brand .brand-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.app-nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.app-nav-links a {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #A0A7C0;
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.app-nav-links a:hover,
+.app-nav-links a.active {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.app-nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ffffff, #cccccc);
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .app-nav-links {
+        display: none;
+    }
+}

@@ -1,0 +1,640 @@
+/* ═══════════ POLARIS — CONSTELLATION GAME ═══════════ */
+
+@theme {
+    --color-cosmic-900: #020617;
+    --color-cosmic-800: #0a0f2c;
+    --color-cosmic-700: #111836;
+    --color-cosmic-600: #1a2342;
+    --color-cosmic-500: #243054;
+    --color-cosmic-400: #334478;
+    --color-cosmic-300: #4a5eae;
+    --color-cosmic-200: #7b8fd4;
+    --color-cosmic-100: #b3bfe8;
+    --color-cyan-glow: #00e5ff;
+    --color-cyan-500: #06b6d4;
+    --color-cyan-400: #22d3ee;
+    --color-cyan-300: #67e8f9;
+    --color-nebula-purple: #7c3aed;
+    --color-nebula-pink: #ec4899;
+    --color-star-gold: #fbbf24;
+    --color-star-white: #f0f9ff;
+}
+
+/* ── Intro Video Screen ── */
+.polaris-intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.polaris-intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.polaris-skip-btn {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.03em;
+}
+
+.polaris-skip-btn:hover {
+    background: rgba(0, 229, 255, 0.15);
+    border-color: rgba(0, 229, 255, 0.4);
+    color: #fff;
+}
+
+/* ── Game Page Container ── */
+.constellation-game-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #020617 0%, #0a0f2c 30%, #111836 60%, #0a0f2c 100%);
+    overflow: hidden;
+}
+
+/* ── Starfield ── */
+@keyframes game-twinkle {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.game-starfield {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.game-star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: game-twinkle var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+/* ── Game Section ── */
+.polaris-game-section {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Removed justify-content: center to avoid huge bottom gaps on tall screens */
+    min-height: 100vh;
+    padding: 4rem 1rem 2rem;
+    /* Reduced padding as requested */
+    overflow-y: auto;
+    /* Allow scrolling if needed */
+    gap: 0.5rem;
+}
+
+/* ── Header ── */
+.polaris-header {
+    text-align: center;
+    margin-bottom: 0.25rem;
+    flex-shrink: 0;
+}
+
+.polaris-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.polaris-badge span {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(34, 211, 238, 0.8);
+    font-weight: 500;
+}
+
+.polaris-title {
+    font-size: clamp(1.5rem, 4vw, 2.8rem);
+    font-weight: 700;
+    background: linear-gradient(to right, #67e8f9, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.15rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.polaris-subtitle {
+    color: #9ca3af;
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+/* ── Cards Area ── */
+.polaris-cards-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 340px;
+}
+
+/* ── Score Panel ── */
+.polaris-score-panel {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.85), rgba(10, 15, 44, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    /* Increased from 0.5rem */
+    flex-shrink: 0;
+}
+
+.polaris-score-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.polaris-score-label {
+    font-size: 0.8rem;
+    color: #d1d5db;
+}
+
+.polaris-score-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #67e8f9;
+    font-variant-numeric: tabular-nums;
+}
+
+.polaris-score-divider {
+    width: 1px;
+    height: 1.5rem;
+    background: #334478;
+}
+
+/* ── Quiz Options ── */
+.polaris-quiz-options {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+.polaris-quiz-question {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #9ca3af;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.03em;
+}
+
+.polaris-quiz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+.polaris-quiz-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.85), rgba(10, 15, 44, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.polaris-quiz-default:hover {
+    border-color: rgba(34, 211, 238, 0.4);
+    color: #a5f3fc;
+}
+
+.polaris-quiz-correct {
+    border-color: #4ade80 !important;
+    background: rgba(74, 222, 128, 0.1) !important;
+    color: #86efac !important;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+.polaris-quiz-wrong {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* ── Controls ── */
+.polaris-controls {
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+.polaris-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.3rem;
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #67e8f9;
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.85), rgba(10, 15, 44, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.polaris-action-btn:hover {
+    color: #fff;
+    border-color: rgba(0, 229, 255, 0.4);
+}
+
+.polaris-exit-btn {
+    color: #9ca3af;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.polaris-exit-btn:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Footer Stats ── */
+.polaris-footer-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: 0.7rem;
+    color: #4a5eae;
+    flex-shrink: 0;
+}
+
+.polaris-footer-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #22d3ee;
+    animation: game-twinkle 2s ease-in-out infinite;
+}
+
+.polaris-footer-sep {
+    color: #243054;
+}
+
+/* ── Glass card (shared) ── */
+.glass-card {
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.85), rgba(10, 15, 44, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 1.25rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+}
+
+/* ── Glow effects ── */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), 0 0 60px rgba(0, 229, 255, 0.1);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.5), 0 0 80px rgba(0, 229, 255, 0.2);
+    }
+}
+
+.glow-cyan {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.text-glow {
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 30px rgba(0, 229, 255, 0.2);
+}
+
+/* ── Difficulty Badge ── */
+.polaris-difficulty-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid;
+}
+
+/* ── Timer Bar ── */
+.polaris-timer-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 360px;
+    margin: 0.25rem auto;
+    flex-shrink: 0;
+}
+
+.polaris-timer-track {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.polaris-timer-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+.polaris-timer-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    min-width: 2rem;
+    text-align: right;
+}
+
+/* ── Fullscreen Overlay ── */
+.polaris-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.85);
+    backdrop-filter: blur(12px);
+}
+
+/* ── Level Up Card ── */
+.polaris-level-up-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 3rem;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.95), rgba(10, 15, 44, 0.98));
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    text-align: center;
+    max-width: 400px;
+}
+
+.polaris-level-up-stars {
+    font-size: 2rem;
+    color: #fbbf24;
+    animation: level-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes level-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+.polaris-level-up-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #67e8f9, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.polaris-level-up-sub {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.polaris-level-up-info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #7b8fd4;
+    font-size: 0.8rem;
+}
+
+.polaris-level-btn {
+    margin-top: 0.5rem;
+    color: #67e8f9 !important;
+    border-color: rgba(0, 229, 255, 0.3) !important;
+}
+
+/* ── Badge / Completion Card ── */
+.polaris-badge-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(17, 24, 54, 0.95), rgba(30, 20, 10, 0.95));
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    text-align: center;
+    max-width: 440px;
+    box-shadow:
+        0 0 40px rgba(251, 191, 36, 0.15),
+        0 0 80px rgba(251, 191, 36, 0.08);
+}
+
+.polaris-badge-trophy {
+    animation: trophy-float 3s ease-in-out infinite;
+}
+
+@keyframes trophy-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.polaris-badge-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #fbbf24, #f59e0b, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.polaris-badge-sub {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    max-width: 320px;
+}
+
+.polaris-badge-stats {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.polaris-badge-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ── Hard Mode Input ── */
+.polaris-hard-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.polaris-hard-input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(10, 15, 44, 0.8);
+    backdrop-filter: blur(8px);
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.polaris-hard-input:focus {
+    border-color: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.1);
+}
+
+.polaris-hard-input::placeholder {
+    color: #4a5eae;
+}
+
+.polaris-submit-btn {
+    flex-shrink: 0;
+}
+
+.polaris-hard-result {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.75rem;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.polaris-hard-correct {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.polaris-hard-wrong {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .polaris-game-section {
+        padding: 1rem 0.75rem 0.75rem;
+    }
+
+    .polaris-cards-area {
+        max-height: 280px;
+    }
+
+    .polaris-quiz-grid {
+        gap: 0.5rem;
+    }
+
+    .polaris-quiz-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .polaris-skip-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+
+    .polaris-level-up-card,
+    .polaris-badge-card {
+        margin: 0 1rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .polaris-hard-form {
+        flex-direction: column;
+    }
+}

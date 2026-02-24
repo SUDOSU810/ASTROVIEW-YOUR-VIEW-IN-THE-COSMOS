@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════
+   AstroView — Learn More Modal Styles
+   ═══════════════════════════════════════════ */
+
+.lm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: lm-fade-in 0.2s ease;
+}
+
+@keyframes lm-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.lm-modal {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2rem;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 14, 30, 0.96);
+    backdrop-filter: blur(24px);
+    animation: lm-slide-up 0.3s ease;
+}
+
+@keyframes lm-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lm-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #A0A7C0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.lm-close:hover {
+    background: rgba(255, 76, 76, 0.15);
+    color: #FF4C4C;
+}
+
+.lm-header h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-transform: capitalize;
+}
+
+/* ── Why It Matters ── */
+.lm-why {
+    padding: 1.25rem;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 245, 255, 0.12);
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.05) 0%, rgba(123, 97, 255, 0.05) 100%);
+    margin-bottom: 1.5rem;
+}
+
+.lm-why h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.lm-why p {
+    font-size: 0.88rem;
+    color: #A0A7C0;
+    line-height: 1.6;
+}
+
+/* ── Image Grid ── */
+.lm-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.lm-card {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+}
+
+.lm-card:hover {
+    border-color: rgba(0, 245, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.lm-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.lm-card h4 {
+    padding: 0.75rem 0.75rem 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.lm-card p {
+    padding: 0 0.75rem;
+    font-size: 0.75rem;
+    color: #A0A7C0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lm-meta {
+    display: block;
+    padding: 0.5rem 0.75rem 0.75rem;
+    font-size: 0.65rem;
+    color: rgba(160, 167, 192, 0.4);
+}
+
+/* ── States ── */
+.lm-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem;
+    color: #A0A7C0;
+    font-size: 0.9rem;
+}
+
+.lm-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(0, 245, 255, 0.15);
+    border-top-color: #00F5FF;
+    border-radius: 50%;
+    animation: lm-spin 0.8s linear infinite;
+}
+
+@keyframes lm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.lm-error {
+    padding: 2rem;
+    text-align: center;
+    color: #FF6B6B;
+    font-size: 0.85rem;
+}
+
+.lm-empty {
+    padding: 2rem;
+    text-align: center;
+    color: #A0A7C0;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .lm-overlay {
+        padding: 1rem;
+    }
+
+    .lm-modal {
+        padding: 1.5rem;
+    }
+
+    .lm-grid {
+        grid-template-columns: 1fr;
+    }
+}

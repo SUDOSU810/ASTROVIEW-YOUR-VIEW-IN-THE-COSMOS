@@ -1,0 +1,215 @@
+/* ═══════════════════════════════════════════
+   TextShowcaseSection — Two-Column Vertical Layout
+   Side-by-side with vertical divider, right column pushed down
+   ═══════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap');
+
+/* ── Section container ── */
+.text-showcase-section {
+    position: relative;
+    z-index: 1;
+    min-height: 500vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 4vw;
+}
+
+.text-showcase-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── Inner wrapper — columns are absolute within this ── */
+.text-showcase-inner {
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ── Vertical glowing divider — absolutely positioned, never shifts ── */
+.text-showcase-divider-h {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            #4a9eff 15%,
+            #a78bfa 50%,
+            #4a9eff 85%,
+            transparent 100%);
+    box-shadow: 0 0 12px rgba(74, 158, 255, 0.5);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.text-showcase-divider-h::before {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #a78bfa;
+    font-size: 1rem;
+    filter: drop-shadow(0 0 8px #a78bfa);
+    animation: ts-spin 8s linear infinite;
+}
+
+@keyframes ts-spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* ── Columns — absolute, fully independent ── */
+.ts-block-left {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(50% - 2rem);
+    padding: 0 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+}
+
+.ts-block-right {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-15%);
+    width: calc(50% - 2rem);
+    padding: 0 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+}
+
+/* ── Subtle label ── */
+.text-showcase-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: #4a9eff;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.text-showcase-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: #4a9eff;
+}
+
+/* ── Big word (horizontal reveal) ── */
+.horizontal-reveal-container {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+}
+
+.horizontal-reveal-word {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(4.5rem, 9vw, 10rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #e8f4fd 0%, #4a9eff 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    will-change: transform;
+}
+
+/* ── Paragraph body (block reveal) ── */
+.block-reveal-container {
+    position: relative;
+}
+
+.block-reveal-line-wrapper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 0.15rem;
+}
+
+.block-reveal-line {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+    line-height: 2.0;
+    color: #c0ccdd;
+    font-weight: 300;
+    opacity: 0;
+}
+
+.block-reveal-line strong,
+.block-reveal-line b {
+    color: #e8f4fd;
+    font-weight: 400;
+}
+
+.block-reveal-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+
+    .ts-block-left,
+    .ts-block-right {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        transform: none;
+        width: 100%;
+    }
+
+    .ts-block-right {
+        margin-top: 4rem;
+    }
+
+    .text-showcase-divider-h {
+        display: none;
+    }
+
+    .horizontal-reveal-word {
+        font-size: clamp(3rem, 14vw, 5rem);
+    }
+
+    .block-reveal-line {
+        font-size: clamp(1.05rem, 4vw, 1.3rem);
+    }
+}
