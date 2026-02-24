@@ -14,6 +14,9 @@ export const BASE_URLS = {
     NASA: 'https://api.nasa.gov',
     NOAA: '/proxy-noaa',
     ASTRONOMY: '/proxy-astronomy/api/v2',
+    BACKEND: import.meta.env.PROD
+        ? 'https://astroview-backend.onrender.com/api'
+        : (import.meta.env.VITE_API_BASE_URL || '/api'),
 } as const
 
 /** Generic JSON fetcher with timeout */

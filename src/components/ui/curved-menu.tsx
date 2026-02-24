@@ -3,8 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 import { motion, useMotionValue, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Linkedin, Github, Dribbble, Figma, LogOut } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
+import { Linkedin, Github, Dribbble, Figma } from "lucide-react";
 
 interface iNavItem {
   heading: string;
@@ -26,7 +25,6 @@ interface iCurvedNavbarProps {
 
 interface iHeaderProps {
   navItems?: iNavItem[];
-  footer?: React.ReactNode;
 }
 
 const MENU_SLIDE_ANIMATION = {
@@ -89,59 +87,7 @@ const socialLinks = [
   { icon: Figma, href: "https://www.figma.com", label: "Figma" },
 ];
 
-const CustomFooter: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
-
-  return (
-    <div className="flex w-full flex-col gap-3 px-10 md:px-24 py-5" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-      {user && (
-        <div className="flex items-center gap-3 mb-1">
-          <div
-            className="flex items-center justify-center rounded-full"
-            style={{
-              width: 36, height: 36,
-              background: 'linear-gradient(135deg, #00F5FF, #7B61FF)',
-              fontSize: '0.95rem', fontWeight: 700, color: '#0a0e1a',
-            }}
-          >
-            {user.name?.charAt(0)?.toUpperCase() || '?'}
-          </div>
-          <div>
-            <p style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 600, margin: 0 }}>{user.name}</p>
-            <p style={{ color: '#A0A7C0', fontSize: '0.75rem', margin: 0 }}>{user.email}</p>
-          </div>
-        </div>
-      )}
-      <button
-        onClick={handleLogout}
-        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl cursor-pointer"
-        style={{
-          background: 'rgba(255, 68, 102, 0.12)',
-          border: '1px solid rgba(255, 68, 102, 0.25)',
-          color: '#ff4466',
-          fontSize: '0.88rem',
-          fontWeight: 600,
-          transition: 'all 0.2s',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.22)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.12)';
-        }}
-      >
-        <LogOut size={16} />
-        Logout
-      </button>
-    </div>
-  );
-};
 
 const NavLink: React.FC<iNavLinkProps> = ({
   heading,
@@ -263,8 +209,8 @@ const Curve: React.FC = () => {
 };
 
 const CurvedNavbar: React.FC<
-  iCurvedNavbarProps & { footer?: React.ReactNode; onNavigate: (href: string) => void }
-> = ({ setIsActive, navItems, footer, onNavigate }) => {
+  iCurvedNavbarProps & { onNavigate: (href: string) => void }
+> = ({ setIsActive, navItems, onNavigate }) => {
   return (
     <>
       {/* Blur backdrop */}
@@ -308,7 +254,7 @@ const CurvedNavbar: React.FC<
               // topPercent = 45 + sin(angle) * 40  =>  sin(angle) = (top - 45) / 40
               const verticalCenter = 45;
               const angleRad = Math.asin((topPercent - verticalCenter) / 40);
-              
+
               const leftPercent = 11 + (1 - Math.cos(angleRad)) * 45;
 
               return (
@@ -393,7 +339,6 @@ const CurvedNavbar: React.FC<
 
 const Header: React.FC<iHeaderProps> = ({
   navItems = defaultNavItems,
-  footer = <CustomFooter />,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
@@ -458,7 +403,6 @@ const Header: React.FC<iHeaderProps> = ({
           <CurvedNavbar
             setIsActive={setIsActive}
             navItems={navItems}
-            footer={footer}
             onNavigate={handleNavigate}
           />
         )}

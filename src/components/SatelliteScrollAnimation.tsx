@@ -8,8 +8,6 @@ gsap.registerPlugin(ScrollTrigger)
 
 // ── Constants ──
 const TRAIL_COUNT = 100
-const HOVER_AMPLITUDE = 0.04
-const HOVER_SPEED = 1.2
 const LERP_SPEED = 0.08
 
 // ═══════════════════════════════════════

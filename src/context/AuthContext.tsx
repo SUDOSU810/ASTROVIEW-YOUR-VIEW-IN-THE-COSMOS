@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
+import { BASE_URLS } from '../services/api'
 
 // ── Types ──
 interface UserData {
@@ -65,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, [])
 
     const login = async (email: string, password: string) => {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(`${BASE_URLS.BACKEND}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
@@ -84,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const signup = async (signupData: SignupData) => {
-        const res = await fetch('/api/auth/signup', {
+        const res = await fetch(`${BASE_URLS.BACKEND}/auth/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(signupData),
