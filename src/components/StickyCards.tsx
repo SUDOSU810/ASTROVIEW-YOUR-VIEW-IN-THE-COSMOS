@@ -12,6 +12,7 @@ import {
     useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import "./StickyCards.css";
 
 export interface StickyCardData {
     imgUrl: string;
@@ -95,7 +96,7 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
     return (
         <motion.div
             ref={container}
-            className="sticky overflow-hidden"
+            className="sticky overflow-hidden group"
             style={{
                 scale: scale,
                 rotate: filter,
@@ -112,6 +113,7 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
                 alt={card.title || ""}
                 style={{
                     rotate: negateFilter,
+                    opacity: 0.87
                 }}
                 className="h-full w-full scale-125 object-cover"
                 sizes="90vw"
@@ -125,7 +127,7 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
                     background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, transparent 70%)",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "flex-end",
+                    justifyContent: "center",
                     padding: "2.5rem",
                     gap: "0.5rem",
                 }}
@@ -136,12 +138,14 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
                 {card.stat && (
                     <span
                         style={{
-                            fontSize: "3rem",
-                            fontWeight: 800,
+                            fontSize: "4.5rem",
+                            fontWeight: 900,
+                            fontFamily: "'Inter', sans-serif",
                             lineHeight: 1,
                             background: "linear-gradient(135deg, #7b61ff, #00f5ff)",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
+                            letterSpacing: "-0.04em",
                         }}
                     >
                         {card.stat}
@@ -150,11 +154,12 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
                 {card.title && (
                     <h3
                         style={{
-                            fontSize: "1.5rem",
+                            fontSize: "2rem",
                             fontWeight: 700,
                             color: "#fff",
                             margin: 0,
                         }}
+                        className="underline-animation"
                     >
                         {card.title}
                     </h3>
@@ -162,12 +167,14 @@ const StickyCard = ({ card }: { card: StickyCardData }) => {
                 {card.description && (
                     <p
                         style={{
-                            fontSize: "1rem",
+                            fontSize: "1.25rem",
                             color: "rgba(255,255,255,0.7)",
                             margin: 0,
-                            maxWidth: "36rem",
-                            lineHeight: 1.5,
+                            maxWidth: "40rem",
+                            lineHeight: 1.6,
+                            fontWeight: 500,
                         }}
+                        className="underline-animation sticky-description"
                     >
                         {card.description}
                     </p>

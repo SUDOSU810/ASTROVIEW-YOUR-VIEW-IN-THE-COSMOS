@@ -41,7 +41,7 @@ function HorizontalRevealWord({
             const span = document.createElement('span')
             span.textContent = ch
             span.style.display = 'inline-block'
-            span.style.opacity = '0.12'
+            span.style.opacity = '0.30'
             // Inherit background gradient
             span.style.background = 'inherit'
             span.style.webkitBackgroundClip = 'text'
@@ -82,9 +82,8 @@ function HorizontalRevealWord({
                 const xf = rect.left / vw
                 let alpha: number
                 if (xf <= 0.35) alpha = 1.0
-                else if (xf >= 0.65) alpha = 0.12
-                else alpha = 1.0 - ((xf - 0.35) / 0.30) * 0.88
-                s.style.opacity = Math.max(0.12, alpha).toFixed(3)
+                else alpha = 1.0 - ((xf - 0.35) / 0.30) * 0.70
+                s.style.opacity = Math.max(0.30, alpha).toFixed(3)
             })
         }
 

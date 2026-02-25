@@ -250,7 +250,7 @@ export default function LandingPage() {
         <section className="glowing-features-section" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5rem 1.5rem', position: 'relative', zIndex: 2 }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <p style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c084fc', marginBottom: '0.75rem' }}>✨ Features</p>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, letterSpacing: '-0.5px', color: '#fff', marginBottom: '0.75rem' }}>Explore the Cosmos Like Never Before</h2>
+            <h2 className="serif-heading" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.2rem)', fontWeight: 400, letterSpacing: '-0.5px', color: '#fff', marginBottom: '0.75rem' }}>Explore the Cosmos Like Never Before</h2>
             <p style={{ maxWidth: '580px', margin: '0 auto', fontSize: '1rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6 }}>Discover powerful tools designed to bring the wonders of space closer to you.</p>
           </div>
           <MagicBento
@@ -297,7 +297,10 @@ export default function LandingPage() {
         <section className="cta-banner">
           <h2>Ready to explore the cosmos?</h2>
           <p>Your personalized space intelligence dashboard is one click away.</p>
-          <Link to="/dashboard" className="btn-primary btn-lg">
+          <Link
+            to="/dashboard"
+            className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4 origin-left hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border inline-flex items-center justify-center p-3 text-gray-50 text-base font-bold rounded-full overflow-hidden before:absolute before:w-12 before:h-12 before:content-[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg after:absolute after:z-10 after:w-20 after:h-20 after:content-[''] after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg mt-8"
+          >
             Launch Dashboard →
           </Link>
         </section>

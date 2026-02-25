@@ -94,12 +94,12 @@ const AnimatedTeamSection = React.forwardRef<
         >
             <div className="w-full max-w-none mx-auto flex flex-col items-center text-center px-4">
                 {/* Section Header */}
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3"
-                    style={{ color: '#ffffff' }}>
+                <h2 className="text-4xl md:text-6xl tracking-tight mb-3"
+                    style={{ color: '#ffffff', fontFamily: "'Instrument Serif', serif", fontWeight: 400 }}>
                     {title}
                 </h2>
-                <p className="max-w-3xl md:text-xl"
-                    style={{ color: '#A0A7C0' }}>
+                <p className="max-w-3xl text-xl md:text-2xl"
+                    style={{ color: '#A0A7C0', fontWeight: 600 }}>
                     {description}
                 </p>
 

@@ -37,24 +37,24 @@ const MOBILE_BREAKPOINT = 768;
 const cardData: BentoCardProps[] = [
     {
         color: '#060010',
-        title: 'Real-Time Space Intelligence',
-        description: 'Aggregates live data from NASA, NOAA, and ESA to deliver accurate, up-to-date space insights. Monitor asteroid flybys, solar flares, and cosmic events as they unfold — all in one unified dashboard.',
+        title: 'Space Intelligence',
+        description: 'Live asteroid flybys, solar flares, and cosmic events from NASA and ESA in one unified dashboard.',
         label: 'Intelligence',
         icon: <Rocket className="h-5 w-5" />,
         iconColor: '#c084fc'
     },
     {
         color: '#060010',
-        title: 'Location-Aware Personalization',
-        description: 'Customizes celestial events, ISS passes, and sky alerts based on your exact geographic location. Never miss a meteor shower or planetary conjunction visible from your backyard again.',
+        title: 'Personalized Alerts',
+        description: 'Location-based tracking for ISS passes and sky events tailored to your exact geographic coordinates.',
         label: 'Personalization',
         icon: <Globe className="h-5 w-5" />,
         iconColor: '#60a5fa'
     },
     {
         color: '#060010',
-        title: 'Smart Sky Visibility Score',
-        description: 'Calculates optimal viewing conditions by analyzing weather patterns, cloud cover, light pollution levels, and lunar phase. Our algorithm tells you exactly when and where to look for the clearest skies.',
+        title: 'Sky Visibility Score',
+        description: 'AI-calculated viewing scores based on localized weather patterns, cloud cover, and light pollution.',
         label: 'Visibility',
         icon: <Eye className="h-5 w-5" />,
         iconColor: '#818cf8',
@@ -98,8 +98,8 @@ const cardData: BentoCardProps[] = [
     },
     {
         color: '#060010',
-        title: 'Live ISS & Satellite Tracking',
-        description: 'Track the International Space Station and thousands of satellites in real time with interactive maps and stunning 3D orbital visualizations. Get notified minutes before a visible pass over your location.',
+        title: 'Satellite Tracking',
+        description: 'Real-time orbits and pass notifications for the ISS and thousands of satellites with 3D visualizations.',
         label: 'Tracking',
         icon: <Satellite className="h-5 w-5" />,
         iconColor: '#22d3ee',
@@ -144,16 +144,16 @@ const cardData: BentoCardProps[] = [
     },
     {
         color: '#060010',
-        title: 'Space Weather Insights',
-        description: 'Translates complex solar activity data into clear, real-world impact assessments. Understand how geomagnetic storms affect GPS accuracy, radio communications, power grids, and even aurora visibility near you.',
+        title: 'Space Weather',
+        description: 'Solar activity tracking and impact analysis for GPS accuracy, radio comms, and aurora visibility.',
         label: 'Weather',
         icon: <Sun className="h-5 w-5" />,
         iconColor: '#fbbf24'
     },
     {
         color: '#060010',
-        title: 'Polaris Constellation Game',
-        description: 'Master the night sky through an interactive, quiz-based astronomy experience. Identify star patterns, learn constellation mythology, and compete on leaderboards as you level up your stargazing skills.',
+        title: 'Stargazing Game',
+        description: 'Master the night sky with quiz-based challenges. Level up your skills and compete on leaderboards.',
         label: 'Gaming',
         icon: <Gamepad2 className="h-5 w-5" />,
         iconColor: '#34d399'

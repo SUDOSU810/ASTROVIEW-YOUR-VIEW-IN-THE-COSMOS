@@ -134,7 +134,7 @@
 
 .horizontal-reveal-word {
     display: inline-block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Instrument Serif', Georgia, serif;
     font-size: clamp(4.5rem, 9vw, 10rem);
     font-weight: 300;
     letter-spacing: -0.02em;
@@ -159,7 +159,8 @@
 
 .block-reveal-line {
     display: block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
     font-size: clamp(1.15rem, 1.6vw, 1.5rem);
     line-height: 2.0;
     color: #c0ccdd;

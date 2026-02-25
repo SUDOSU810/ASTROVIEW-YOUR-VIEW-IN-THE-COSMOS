@@ -607,6 +607,119 @@ function getTargetTransform(
   }
 }
 
+// ═══════════════════════════════════════
+// Second Animation Arc — Why AstroView → Footer
+// ═══════════════════════════════════════
+function getTargetTransform2(
+  progress: number,
+  time: number,
+  camera: THREE.PerspectiveCamera
+): { pos: THREE.Vector3; rot: THREE.Euler; scale: number } {
+  const ss = (t: number) => t * t * (3 - 2 * t)
+
+  // Compute StickyCards section center from DOM
+  const stickySection = document.querySelector('.why-astroview-section')
+  let sectionCenter: CardPos = { x: 0, y: 0 }
+  if (stickySection) {
+    sectionCenter = domToWorld(stickySection, camera)
+  }
+
+  // Compute footer logo position from DOM
+  const footerLogo = document.querySelector('.footer-logo')
+  let logoPos: CardPos = { x: -3, y: -3 }
+  if (footerLogo) {
+    logoPos = domToWorld(footerLogo, camera)
+  }
+
+  // Phase A: Enter from off-screen right, arrive at top-right of cards (0–15%)
+  if (progress <= 0.15) {
+    const t = ss(progress / 0.15)
+    const rightX = sectionCenter.x + 5.0  // right of the cards
+    return {
+      pos: new THREE.Vector3(
+        lerp(8.0, rightX, t),
+        lerp(sectionCenter.y + 2.5, sectionCenter.y + 2.0, t),
+        lerp(-2, 1.5, t)
+      ),
+      rot: new THREE.Euler(
+        0.05,
+        lerp(Math.PI * 2, Math.PI * 0.8, t),
+        lerp(0.3, 0, t)
+      ),
+      scale: lerp(0.05, 0.30, t),
+    }
+  }
+
+  // Phase B: Travel down the right side of cards with serpentine wobble (15–65%)
+  if (progress <= 0.65) {
+    const t = (progress - 0.15) / 0.50  // 0→1 over 50% of scroll
+    const rightX = sectionCenter.x + 5.0  // stay to the right of cards
+
+    // Gentle sine-wave wobble on X
+    const wobbleX = Math.sin(t * Math.PI * 3) * 0.6
+    // Travel downward through the card stack
+    const topY = sectionCenter.y + 2.0
+    const bottomY = sectionCenter.y - 3.0
+    const y = lerp(topY, bottomY, t)
+
+    const hover = Math.sin(time * 2) * 0.03
+    const z = 1.5 + Math.sin(t * Math.PI * 2) * 0.4  // subtle depth wave
+
+    return {
+      pos: new THREE.Vector3(rightX + wobbleX, y + hover, z),
+      rot: new THREE.Euler(
+        Math.sin(t * Math.PI * 2) * 0.1,
+        Math.PI * 0.8 + Math.sin(t * Math.PI * 3) * 0.2,
+        Math.sin(t * Math.PI * 2) * 0.08
+      ),
+      scale: 0.28 + Math.sin(t * Math.PI * 2) * 0.03,
+    }
+  }
+
+  // Phase C: Descend from bottom-right of cards toward footer (65–85%)
+  if (progress <= 0.85) {
+    const t = ss((progress - 0.65) / 0.20)
+    const rightX = sectionCenter.x + 5.0
+    const startY = sectionCenter.y - 3.0
+
+    const hover = Math.sin(time * 1.5) * 0.04
+
+    return {
+      pos: new THREE.Vector3(
+        lerp(rightX, logoPos.x + 1.5, t),
+        lerp(startY, logoPos.y + 1.0, t) + hover,
+        lerp(1.5, 1.0, t)
+      ),
+      rot: new THREE.Euler(
+        lerp(0.1, 0, t),
+        lerp(Math.PI * 0.8, Math.PI * 0.5, t),
+        lerp(0.08, 0, t)
+      ),
+      scale: lerp(0.28, 0.22, t),
+    }
+  }
+
+  // Phase D: Land on footer AstroView logo (85–100%)
+  {
+    const t = ss((progress - 0.85) / 0.15)
+    const hover = Math.sin(time * 3) * 0.01 * (1 - t)  // hovering fades as it lands
+
+    return {
+      pos: new THREE.Vector3(
+        lerp(logoPos.x + 1.5, logoPos.x, t),
+        lerp(logoPos.y + 1.0, logoPos.y, t) + hover,
+        lerp(1.0, 0.5, t)
+      ),
+      rot: new THREE.Euler(
+        0,
+        lerp(Math.PI * 0.5, 0, t),
+        0
+      ),
+      scale: lerp(0.22, 0.12, t),
+    }
+  }
+}
+
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t
 }
@@ -616,7 +729,7 @@ function lerp(a: number, b: number, t: number): number {
 // ═══════════════════════════════════════
 export default function SatelliteScrollAnimation() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const stateRef = useRef({ scrollProgress: 0 })
+  const stateRef = useRef({ scrollProgress: 0, scrollProgress2: 0 })
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -669,7 +782,7 @@ export default function SatelliteScrollAnimation() {
     const currentRot = new THREE.Euler(0, 0, 0)
     let currentScale = 0
 
-    // ScrollTrigger — extended through team section
+    // ScrollTrigger 1 — hero through team section
     const scrollTrigger = ScrollTrigger.create({
       trigger: '.hero-video-section',
       start: 'top top',
@@ -677,6 +790,16 @@ export default function SatelliteScrollAnimation() {
       end: 'bottom bottom',
       scrub: 3,
       onUpdate: (self) => { state.scrollProgress = self.progress },
+    })
+
+    // ScrollTrigger 2 — Why AstroView through footer
+    const scrollTrigger2 = ScrollTrigger.create({
+      trigger: '.why-astroview-section',
+      start: 'top 80%',
+      endTrigger: '.site-footer',
+      end: 'bottom bottom',
+      scrub: 3,
+      onUpdate: (self) => { state.scrollProgress2 = self.progress },
     })
 
     let frameId: number
@@ -690,8 +813,7 @@ export default function SatelliteScrollAnimation() {
       // Update shader times
       for (const mat of glassMats) mat.uniforms.uTime.value = time
 
-      // Visibility
-      satellite.visible = progress > 0.001
+      // (visibility set below, after picking animation arc)
 
       // Compute divider's Three.js world X from its actual DOM position
       let dividerWorldX = 0
@@ -731,8 +853,11 @@ export default function SatelliteScrollAnimation() {
         }
       }
 
-      // Target
-      const target = getTargetTransform(progress, time, dividerWorldX, bentoCards, teamCardPositions)
+      // Pick which animation arc to use
+      const progress2 = state.scrollProgress2
+      const target = progress2 > 0.01
+        ? getTargetTransform2(progress2, time, camera)
+        : getTargetTransform(progress, time, dividerWorldX, bentoCards, teamCardPositions)
 
       // Smooth lerp
       const lf = 1 - Math.pow(1 - LERP_SPEED, delta * 60)
@@ -748,8 +873,13 @@ export default function SatelliteScrollAnimation() {
       satellite.rotation.set(currentRot.x, currentRot.y, currentRot.z)
       satellite.scale.setScalar(currentScale)
 
-      // Trail (active during orbits and behind-bento orbit)
-      const trailActive = (progress > 0.05 && progress < 0.50 || progress > 0.82) && progress < 0.96 && satellite.visible
+      // Visibility — keep visible during second arc too
+      satellite.visible = progress > 0.001 || progress2 > 0.01
+
+      // Trail (active during orbits in both arcs)
+      const trailActive1 = (progress > 0.05 && progress < 0.50 || progress > 0.82) && progress < 0.96
+      const trailActive2 = progress2 > 0.10 && progress2 < 0.70  // travel phase of arc 2
+      const trailActive = (trailActive1 || trailActive2) && satellite.visible
       asciiTrail.update(satellite.position, trailActive, delta)
 
       // LED pulse
@@ -775,6 +905,7 @@ export default function SatelliteScrollAnimation() {
       window.removeEventListener('resize', onResize)
       cancelAnimationFrame(frameId)
       scrollTrigger.kill()
+      scrollTrigger2.kill()
       asciiTrail.dispose()
       renderer.dispose()
       scene.traverse((obj) => {
