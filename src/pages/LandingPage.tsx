@@ -9,7 +9,7 @@ import MagicBento from '../components/MagicBento'
 import SatelliteScrollAnimation from '../components/SatelliteScrollAnimation'
 import TextShowcaseSection from '../components/TextShowcaseSection'
 import { AnimatedTeamSection } from '../components/ui/team-section'
-import ScrollStack, { ScrollStackItem } from '../components/ScrollStack'
+import StickyCards from '../components/StickyCards'
 import GradualBlur from '../components/GradualBlur'
 import './LandingPage.css'
 import heroVideo from '../assets/astroview_hero.mp4'
@@ -290,40 +290,7 @@ export default function LandingPage() {
             </p>
           </div>
         </section>
-        <ScrollStack
-          itemDistance={80}
-          itemStackDistance={20}
-          baseScale={0.9}
-          className="astro-scroll-stack"
-        >
-          <ScrollStackItem itemClassName="astro-card">
-            <span className="card-icon">🛰️</span>
-            <span className="card-stat">24/7</span>
-            <h3 className="card-title">Live Space Monitoring</h3>
-            <p className="card-description">
-              Real-time data streams from NASA, the ISS, and global weather APIs —
-              monitored around the clock so you never miss a cosmic event.
-            </p>
-          </ScrollStackItem>
-          <ScrollStackItem itemClassName="astro-card">
-            <span className="card-icon">📡</span>
-            <span className="card-stat">5+</span>
-            <h3 className="card-title">Data Sources Aggregated</h3>
-            <p className="card-description">
-              We pull from dozens of scattered, technical sources and consolidate
-              everything into one clean dashboard. No more tab-hopping.
-            </p>
-          </ScrollStackItem>
-          <ScrollStackItem itemClassName="astro-card">
-            <span className="card-icon">📍</span>
-            <span className="card-stat">100%</span>
-            <h3 className="card-title">Location-Personalized</h3>
-            <p className="card-description">
-              Every data point is localized to your exact coordinates — visibility scores,
-              pass predictions, and alerts tailored to where you are. No PhD required.
-            </p>
-          </ScrollStackItem>
-        </ScrollStack>
+        <StickyCards />
 
 
         {/* ── CTA Banner ── */}
