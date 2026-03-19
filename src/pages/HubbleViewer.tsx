@@ -289,12 +289,10 @@ export default function HubbleViewer() {
     let modelCenter = new THREE.Vector3()
     let modelSize = 0
     let components: ComponentGroups | null = null
-    let hubbleModel: THREE.Object3D | null = null
     let animId = 0
 
     loader.load('/models/hubble.glb', (gltf) => {
       const model = gltf.scene
-      hubbleModel = model
       scene.add(model)
 
       const box = new THREE.Box3().setFromObject(model)

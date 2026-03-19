@@ -19,7 +19,6 @@ import './SkyClickGame.css';
    Constants
    ═══════════════════════════════════════════════════════ */
 const SKY_RADIUS = 100;
-const STAR_BASE_SIZE = 3.5;
 const CORRECT_SCORE = 10;
 const WRONG_PENALTY = 3;
 const STREAK_THRESHOLD = 3;
