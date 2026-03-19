@@ -1,5 +1,16 @@
 /* ═══════════ POLARIS — CONSTELLATION GAME ═══════════ */
 
+html.polaris-active,
+html.polaris-active body {
+    overflow: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+html.polaris-active::-webkit-scrollbar,
+html.polaris-active body::-webkit-scrollbar {
+    display: none;
+}
+
 @theme {
     --color-cosmic-900: #020617;
     --color-cosmic-800: #0a0f2c;

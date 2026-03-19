@@ -1,0 +1,119 @@
+/* ──── Hubble Viewer Page ──── */
+html.hubble-active,
+html.hubble-active body {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0f;
+  overflow-x: hidden;
+}
+
+.hubble-viewer {
+  position: relative;
+  width: 100%;
+  background: #0a0a0f;
+}
+
+.hubble-back-btn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 159, 252, 0.2);
+  background: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FF9FFC;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.hubble-back-btn:hover {
+  background: rgba(255, 159, 252, 0.1);
+  border-color: rgba(255, 159, 252, 0.4);
+  transform: translateX(-2px);
+}
+
+.hubble-canvas-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.hubble-scroll-spacer {
+  height: 4.7vh;
+  background: #0a0a0f;
+}
+
+/* Informational Cards */
+.hubble-component-card {
+  position: fixed;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  max-width: 350px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(1.8) brightness(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.8) brightness(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.2),
+    0 2px 16px 0 rgba(31, 38, 135, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  font-family: "Instrument Serif", serif;
+  transition: opacity 0.3s ease;
+}
+
+.hubble-component-card.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hubble-component-card h2 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: "Instrument Serif", serif;
+}
+
+.hubble-component-card p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-family: "Instrument Serif", serif;
+}
+
+@media (max-width: 768px) {
+  .hubble-component-card {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    padding: 20px;
+  }
+
+  .hubble-component-card h2 {
+    font-size: 22px;
+  }
+
+  .hubble-component-card p {
+    font-size: 14px;
+  }
+}

@@ -2,13 +2,29 @@
    AstroView — Live Tracker Styles
    ═══════════════════════════════════════════ */
 
+html.tracker-active,
+html.tracker-active body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+html.tracker-active::-webkit-scrollbar,
+html.tracker-active body::-webkit-scrollbar {
+    display: none;
+}
+
 .live-tracker {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: 100vh;
     overflow: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    z-index: 0;
 }
 
 .live-tracker::-webkit-scrollbar {
@@ -56,7 +72,7 @@
     top: 1.5rem;
     left: 1.5rem;
     width: 280px;
-    max-height: calc(100vh - 60px - 3rem);
+    max-height: calc(100vh - 3rem);
     overflow-y: auto;
     padding: 1.5rem;
     border-radius: 18px;

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import './Profile.css'
@@ -5,6 +6,11 @@ import './Profile.css'
 export default function Profile() {
     const { user, logout } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        document.documentElement.classList.add('profile-active')
+        return () => document.documentElement.classList.remove('profile-active')
+    }, [])
 
     const handleLogout = () => {
         logout()

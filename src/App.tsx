@@ -8,8 +8,12 @@ import SkyEvents from './pages/SkyEvents'
 import SpaceImpact from './pages/SpaceImpact'
 import LiveTracker from './pages/LiveTracker'
 import ConstellationGame from './pages/ConstellationGame'
+import SkyClickGame from './pages/SkyClickGame'
 import Profile from './pages/Profile'
 import TimelinePage from './pages/TimelinePage'
+import SpaceExplorer from './pages/SpaceExplorer'
+import HubbleViewer from './pages/HubbleViewer'
+import RocketViewer from './pages/RocketViewer'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -35,8 +39,12 @@ function App() {
         <Route path="/space-impact" element={<SpaceImpact />} />
         <Route path="/live-tracker" element={<LiveTracker />} />
         <Route path="/constellation-game" element={<ConstellationGame />} />
+        <Route path="/sky-click-game" element={<SkyClickGame />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/timeline" element={<TimelinePage />} />
+        <Route path="/space-explorer" element={<SpaceExplorer />} />
+        <Route path="/hubble-viewer" element={<HubbleViewer />} />
+        <Route path="/rocket-viewer" element={<RocketViewer />} />
       </Route>
     </Routes>
   )

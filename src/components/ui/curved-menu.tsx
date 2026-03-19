@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import { motion, useMotionValue, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Linkedin, Github, Dribbble, Figma, LogOut } from "lucide-react";
+import { Linkedin, Github, Dribbble, Figma, LogOut, ChevronUp, ChevronDown } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 interface iNavItem {
@@ -26,7 +26,6 @@ interface iCurvedNavbarProps {
 
 interface iHeaderProps {
   navItems?: iNavItem[];
-  footer?: React.ReactNode;
 }
 
 const MENU_SLIDE_ANIMATION = {
@@ -76,6 +75,11 @@ const defaultNavItems: iNavItem[] = [
     subheading: "Journey through space history",
   },
   {
+    heading: " Infographic-3D",
+    href: "/space-explorer",
+    subheading: "3d Infographic",
+  },
+  {
     heading: " Profile",
     href: "/profile",
     subheading: "Account & preferences",
@@ -89,7 +93,7 @@ const socialLinks = [
   { icon: Figma, href: "https://www.figma.com", label: "Figma" },
 ];
 
-const CustomFooter: React.FC = () => {
+const CenterUserPanel: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -99,47 +103,100 @@ const CustomFooter: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-3 px-10 md:px-24 py-5" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ delay: 0.5, duration: 0.5, ease: 'easeOut' }}
+      style={{
+        position: 'fixed',
+        top: '38%',
+        right: '20px',
+        transform: 'translateY(-50%)',
+        zIndex: 45,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '18px 20px',
+        borderRadius: '16px',
+        background: 'rgba(10,14,26,0.85)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        width: '160px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+      }}
+    >
+      {/* Avatar */}
       {user && (
-        <div className="flex items-center gap-3 mb-1">
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
           <div
-            className="flex items-center justify-center rounded-full"
             style={{
-              width: 36, height: 36,
-              background: 'linear-gradient(135deg, #00F5FF, #7B61FF)',
-              fontSize: '0.95rem', fontWeight: 700, color: '#0a0e1a',
+              width: 44, height: 44,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #FF9FFC, #7B61FF)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.1rem', fontWeight: 700, color: '#0a0e1a',
+              boxShadow: '0 0 20px rgba(255,159,252,0.25)',
             }}
           >
             {user.name?.charAt(0)?.toUpperCase() || '?'}
           </div>
-          <div>
-            <p style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 600, margin: 0 }}>{user.name}</p>
-            <p style={{ color: '#A0A7C0', fontSize: '0.75rem', margin: 0 }}>{user.email}</p>
-          </div>
+          <p style={{ color: '#fff', fontSize: '0.82rem', fontWeight: 600, margin: 0, textAlign: 'center', letterSpacing: '0.3px' }}>
+            {user.name}
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.68rem', margin: 0, textAlign: 'center' }}>
+            {user.email}
+          </p>
         </div>
       )}
+
+      {/* Social links */}
+      <div style={{ display: 'flex', gap: '14px', padding: '4px 0' }}>
+        {socialLinks.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-all duration-300 hover:scale-110"
+            style={{ color: 'rgba(255,255,255,0.35)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9FFC')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
+          >
+            <s.icon size={16} />
+          </a>
+        ))}
+      </div>
+
+      {/* Logout */}
       <button
         onClick={handleLogout}
-        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl cursor-pointer"
+        className="flex items-center justify-center gap-2 cursor-pointer"
         style={{
-          background: 'rgba(255, 68, 102, 0.12)',
-          border: '1px solid rgba(255, 68, 102, 0.25)',
+          width: '100%',
+          padding: '7px 18px',
+          borderRadius: '10px',
+          background: 'rgba(255, 68, 102, 0.08)',
+          border: '1px solid rgba(255, 68, 102, 0.18)',
           color: '#ff4466',
-          fontSize: '0.88rem',
+          fontSize: '0.76rem',
           fontWeight: 600,
+          letterSpacing: '0.5px',
           transition: 'all 0.2s',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.22)';
+          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.18)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.12)';
+          e.currentTarget.style.background = 'rgba(255, 68, 102, 0.08)';
         }}
       >
-        <LogOut size={16} />
+        <LogOut size={14} />
         Logout
       </button>
-    </div>
+    </motion.div>
   );
 };
 
@@ -262,9 +319,70 @@ const Curve: React.FC = () => {
   );
 };
 
+// ── Rotary Dial constants ──
+const VISIBLE_SLOTS = 8; // how many items fit on the arc at once
+const ARC_START = 9;     // top % of first visible item
+const ARC_END = 88;      // top % of last visible item
+
 const CurvedNavbar: React.FC<
-  iCurvedNavbarProps & { footer?: React.ReactNode; onNavigate: (href: string) => void }
-> = ({ setIsActive, navItems, footer, onNavigate }) => {
+  iCurvedNavbarProps & { onNavigate: (href: string) => void }
+> = ({ setIsActive, navItems, onNavigate }) => {
+  // ── Rotary dial scroll state ──
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const maxScroll = Math.max(0, navItems.length - VISIBLE_SLOTS);
+  const springOffset = useSpring(0, { stiffness: 300, damping: 30 });
+  const touchStartY = useRef<number | null>(null);
+  const touchStartOffset = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Keep spring in sync
+  useEffect(() => {
+    springOffset.set(scrollOffset);
+  }, [scrollOffset, springOffset]);
+
+  // Mouse wheel handler — rotary dial feel
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const delta = e.deltaY > 0 ? 1 : -1;
+      setScrollOffset((prev) => Math.max(0, Math.min(maxScroll, prev + delta)));
+    },
+    [maxScroll]
+  );
+
+  // Touch handlers for mobile drag
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartOffset.current = scrollOffset;
+  }, [scrollOffset]);
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (touchStartY.current === null) return;
+      const dy = touchStartY.current - e.touches[0].clientY;
+      const steps = Math.round(dy / 50); // 50px per step
+      const next = Math.max(0, Math.min(maxScroll, touchStartOffset.current + steps));
+      setScrollOffset(next);
+    },
+    [maxScroll]
+  );
+
+  const handleTouchEnd = useCallback(() => {
+    touchStartY.current = null;
+  }, []);
+
+  // Attach wheel listener (passive: false to prevent page scroll)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
+
+  const canScrollUp = scrollOffset > 0;
+  const canScrollDown = scrollOffset < maxScroll;
+
   return (
     <>
       {/* Blur backdrop */}
@@ -277,6 +395,9 @@ const CurvedNavbar: React.FC<
         className="fixed inset-0 z-30"
         style={{ background: 'rgba(3,5,15,0.5)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
       />
+
+      {/* User panel — fixed position, outside the curved container */}
+      <CenterUserPanel />
 
       <motion.div
         variants={MENU_SLIDE_ANIMATION}
@@ -291,33 +412,74 @@ const CurvedNavbar: React.FC<
           borderLeft: '1.5px solid rgba(255,255,255,0.2)',
         }}
       >
-        {/* Navigation items arranged in a circular arc */}
-        <div className="relative h-full w-full flex flex-col items-end justify-center">
+        {/* Navigation items arranged in a circular arc — rotary dial */}
+        <div
+          ref={containerRef}
+          className="relative h-full w-full flex flex-col items-end justify-center"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ touchAction: 'none' }}
+        >
+          {/* Scroll-up chevron indicator */}
+          <AnimatePresence>
+            {canScrollUp && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setScrollOffset((p) => Math.max(0, p - 1))}
+                style={{
+                  position: 'absolute',
+                  top: '3%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 10,
+                  cursor: 'pointer',
+                  color: 'rgba(255,255,255,0.4)',
+                  transition: 'color 0.2s',
+                }}
+                whileHover={{ color: '#fff', scale: 1.15 }}
+              >
+                <ChevronUp size={22} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Arc-positioned nav items */}
           <div className="relative w-full h-full">
-
             {navItems.map((item, index) => {
-              const total = navItems.length;
-              // Linear vertical spacing for even gaps
-              const startTop = 9;
-              const endTop = 81;
-              const topPercent = startTop + (index * (endTop - startTop)) / (total - 1);
+              // Position relative to scroll window
+              const virtualIndex = index - scrollOffset;
+
+              // Items outside visible range — fade out
+              if (virtualIndex < -0.5 || virtualIndex > VISIBLE_SLOTS - 0.5) return null;
+
+              const slotsForSpacing = VISIBLE_SLOTS - 1;
+              const topPercent = ARC_START + (virtualIndex * (ARC_END - ARC_START)) / slotsForSpacing;
 
               // Back-calculate angle from top position to maintain curve path
-              // verticalCenter = 45, radiusY = 40
-              // topPercent = 45 + sin(angle) * 40  =>  sin(angle) = (top - 45) / 40
-              const verticalCenter = 45;
-              const angleRad = Math.asin((topPercent - verticalCenter) / 40);
-              
+              const verticalCenter = (ARC_START + ARC_END) / 2;
+              const radiusY = (ARC_END - ARC_START) / 2;
+              const sinVal = Math.max(-1, Math.min(1, (topPercent - verticalCenter) / radiusY));
+              const angleRad = Math.asin(sinVal);
               const leftPercent = 11 + (1 - Math.cos(angleRad)) * 45;
+
+              // Fade edges
+              const edgeDist = Math.min(virtualIndex + 0.5, VISIBLE_SLOTS - 0.5 - virtualIndex);
+              const itemOpacity = edgeDist < 0.5 ? edgeDist * 2 : 1;
 
               return (
                 <motion.div
                   key={item.href}
                   initial={{ opacity: 0, x: 60 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  animate={{ opacity: itemOpacity, x: 0 }}
                   exit={{ opacity: 0, x: 60 }}
-                  transition={{ delay: 0.3 + index * 0.08, duration: 0.5, ease: 'easeOut' }}
+                  transition={{
+                    opacity: { duration: 0.3, ease: 'easeOut' },
+                    x: { delay: 0.3 + index * 0.06, duration: 0.5, ease: 'easeOut' },
+                  }}
                   style={{
                     position: 'absolute',
                     top: `${topPercent}%`,
@@ -325,6 +487,7 @@ const CurvedNavbar: React.FC<
                     transform: 'translateY(-50%)',
                     whiteSpace: 'nowrap',
                     zIndex: 1,
+                    transition: 'top 0.35s cubic-bezier(0.4,0,0.2,1), left 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
                   }}
                 >
                   {/* Individual button container */}
@@ -357,40 +520,33 @@ const CurvedNavbar: React.FC<
               );
             })}
           </div>
-+          {/* optional footer content rendered at bottom */}
-+          {footer && (
-+            <div className="absolute bottom-6 right-6" style={{ zIndex: 1 }}>
-+              {footer}
-+            </div>
-          )}
 
-
-          {/* Social links at bottom of the arc */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
-            className="absolute bottom-8 right-0 w-full flex justify-center gap-6"
-            style={{ paddingLeft: '30%' }}
-          >
-            {socialLinks.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-all duration-300 hover:scale-110"
+          {/* Scroll-down chevron indicator */}
+          <AnimatePresence>
+            {canScrollDown && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setScrollOffset((p) => Math.min(maxScroll, p + 1))}
                 style={{
-                  color: 'rgba(255,255,255,0.5)',
+                  position: 'absolute',
+                  bottom: '10%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 10,
+                  cursor: 'pointer',
+                  color: 'rgba(255,255,255,0.4)',
+                  transition: 'color 0.2s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+                whileHover={{ color: '#fff', scale: 1.15 }}
               >
-                <s.icon size={20} />
-              </a>
-            ))}
-          </motion.div>
+                <ChevronDown size={22} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </div>
         <Curve />
       </motion.div>
@@ -400,7 +556,6 @@ const CurvedNavbar: React.FC<
 
 const Header: React.FC<iHeaderProps> = ({
   navItems = defaultNavItems,
-  footer = <CustomFooter />,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
@@ -464,8 +619,9 @@ const Header: React.FC<iHeaderProps> = ({
         {isActive && (
           <CurvedNavbar
             setIsActive={setIsActive}
+
+
             navItems={navItems}
-            footer={footer}
             onNavigate={handleNavigate}
           />
         )}

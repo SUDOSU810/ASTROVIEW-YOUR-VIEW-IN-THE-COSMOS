@@ -79,6 +79,7 @@ export default function LiveTracker() {
   }
 
   useEffect(() => {
+    document.documentElement.classList.add('tracker-active')
     if (!mapRef.current || leafletMap.current) return
 
     const map = L.map(mapRef.current, {
@@ -111,6 +112,7 @@ export default function LiveTracker() {
     fetchISS()
     const interval = setInterval(fetchISS, 5000)
     return () => {
+      document.documentElement.classList.remove('tracker-active')
       clearInterval(interval)
       if (regionTimer.current) clearInterval(regionTimer.current)
       map.remove()

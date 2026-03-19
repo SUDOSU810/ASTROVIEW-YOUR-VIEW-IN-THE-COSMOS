@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './SkyEvents.css'
 import { useUserLocation } from '../hooks/useUserLocation'
 import { useWeather } from '../hooks/useWeather'
@@ -82,6 +83,7 @@ const VIS_COLOR: Record<string, string> = {
 
 export default function SkyEvents() {
   const [tab, setTab] = useState<Tab>('today')
+  const nav = useNavigate()
 
   const location = useUserLocation()
   const weather = useWeather(location.lat, location.lng, location.loading)
@@ -280,6 +282,18 @@ export default function SkyEvents() {
       {/* ── Best Viewing Window ── */}
       <div className="sky-viewing-window">
         <ViewingWindowCard window={viewingWindow.window} loading={viewingWindow.loading} />
+      </div>
+
+      {/* ── Sky Click Game CTA ── */}
+      <div className="sky-game-cta" onClick={() => nav('/sky-click-game')}>
+        <div className="sky-game-cta-inner">
+          <div className="sky-game-cta-icon">🎯</div>
+          <div className="sky-game-cta-text">
+            <h3>Play Sky Click Challenge</h3>
+            <p>Click on constellations in a real-time 3D sky — test your celestial navigation!</p>
+          </div>
+          <div className="sky-game-cta-arrow">→</div>
+        </div>
       </div>
     </div>
   )

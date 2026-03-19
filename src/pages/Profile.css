@@ -1,3 +1,16 @@
+/* ── Profile Page ────────────────────────
+   Scrollbar hiding */
+html.profile-active,
+html.profile-active body {
+    overflow: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+html.profile-active::-webkit-scrollbar,
+html.profile-active body::-webkit-scrollbar {
+    display: none;
+}
+
 /* ── Profile Page ──────────────────────── */
 .profile-page {
     min-height: 80vh;

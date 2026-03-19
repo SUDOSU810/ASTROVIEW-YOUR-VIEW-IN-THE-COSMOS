@@ -21,6 +21,12 @@ export default function ConstellationGame() {
     const [showGuide, setShowGuide] = useState(false); // User Guide state
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    /* ── Hide body scrollbar ── */
+    useEffect(() => {
+        document.documentElement.classList.add('polaris-active');
+        return () => document.documentElement.classList.remove('polaris-active');
+    }, []);
+
     /* ── Explore state ── */
     const [exploreCards] = useState<CardItem[]>(() => shuffle(ALL_CONSTELLATIONS).slice(0, 10));
     const [activeIndex, setActiveIndex] = useState(0);

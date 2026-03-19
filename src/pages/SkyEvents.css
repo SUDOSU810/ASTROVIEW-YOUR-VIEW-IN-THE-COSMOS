@@ -210,3 +210,87 @@
         gap: 0.3rem;
     }
 }
+
+/* ── Sky Click Game CTA ── */
+.sky-game-cta {
+    margin-top: 2rem;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.35), rgba(123, 97, 255, 0.35), rgba(255, 97, 216, 0.2));
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sky-game-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(0, 245, 255, 0.15), 0 0 80px rgba(123, 97, 255, 0.08);
+}
+
+.sky-game-cta-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 2rem;
+    border-radius: 18px;
+    background: rgba(10, 15, 30, 0.92);
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+}
+
+.sky-game-cta-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.04), transparent);
+    animation: ctaShimmer 4s infinite;
+}
+
+@keyframes ctaShimmer {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+.sky-game-cta-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.sky-game-cta-text h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00f5ff, #7b61ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3rem;
+}
+
+.sky-game-cta-text p {
+    font-size: 0.85rem;
+    color: rgba(160, 167, 192, 0.7);
+    line-height: 1.4;
+}
+
+.sky-game-cta-arrow {
+    font-size: 1.5rem;
+    color: rgba(0, 245, 255, 0.6);
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+}
+
+.sky-game-cta:hover .sky-game-cta-arrow {
+    transform: translateX(4px);
+    color: #00f5ff;
+}
